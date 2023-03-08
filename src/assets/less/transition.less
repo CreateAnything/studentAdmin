@@ -1,0 +1,25 @@
+#app {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  min-height: 100vh;
+}
+
+// 路由动画
+.child-view {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  transition: all 0.8s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* 离开 */
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
+}
+/* 进入 */
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translateX(-50px);
+}

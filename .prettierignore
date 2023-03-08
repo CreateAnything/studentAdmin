@@ -1,0 +1,5 @@
+/node_modules/**
+README.md
+package.json
+tsconfig.json
+tsconfig.node
