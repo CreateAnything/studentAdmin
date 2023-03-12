@@ -1,0 +1,24 @@
+@m-left: 10px;
+.header {
+	height: 100%;
+	box-sizing: border-box;
+	.header-left {
+		padding-left: @p-media;
+		margin-left: @m-left;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		div {
+			margin-left: @m-left;
+		}
+	}
+	.header-right {
+		display: flex;
+		justify-content: flex-end;
+		padding-right: @p-media;
+		cursor: pointer;
+		div {
+			margin-right: @m-left;
+		}
+	}
+}
