@@ -7,6 +7,7 @@ export type Form = {
 import { useUserStore } from '@/store/user';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
+
 const user = useUserStore();
 const useLogin = () => {
 	const formState = reactive<Form>({

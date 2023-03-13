@@ -31,7 +31,6 @@ export function createRouterGuards(
 		const token = user.userInfo.token;
 		if (token) {
 			if (!premission.hasPrivateRoutes) {
-				user.LoginRequest; //完成登录请求
 				premission.generateRouter(); //序列化路由
 				const resloveRoutes = premission.privateRoutes;
 				if (resloveRoutes.length > 0) {
