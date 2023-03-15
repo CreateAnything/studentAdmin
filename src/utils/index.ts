@@ -1,4 +1,4 @@
-import { MenuItem } from '@/vite-env';
+import { MenuItem } from 'global';
 import { Component } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
 import { UseTreeFnType } from './type';
@@ -32,7 +32,7 @@ export const GetRoutesByMenu = (
 			component: modules[modulePath],
 		};
 		if (hasChild) {
-			routes.redirect = children?.[0].path as never;
+			// routes.redirect = children?.[0].path as never;
 			routes.component = () =>
 				import('../components/commmon/ParentView/index.vue');
 		}
@@ -93,6 +93,23 @@ function getTreeNameArrayById(tree: MenuItem[], Id: string): string[] {
 	return breadcrumb;
 }
 
+//将树变成list
+//树状解构转列表
+export function getTreeToList<T extends MenuItem>(data: T[]): T[] {
+	const res: T[] = [];
+	const deep = (tree: T[]): void => {
+		for (let i = 0; i < tree.length; i++) {
+			const treeItem: T = tree[i];
+			res.push(treeItem);
+			if (treeItem.children && treeItem.children.length > 0) {
+				res.concat(treeItem.children as T[]);
+				deep(treeItem.children as T[]);
+			}
+		}
+	};
+	deep(data);
+	return res;
+}
 export const levelMapTree = <T extends { left: T; right: T }>(
 	root: T
 ) => {

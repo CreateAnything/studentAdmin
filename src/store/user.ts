@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { menuList } from '@/mock/index';
-import { MyRequest } from '@/request';
 import { usePremissionStore } from '@/store/premission';
 import { defineStore } from 'pinia';
 import { State } from './type/user.type';
-
 export const useUserStore = defineStore('user', {
 	state: (): State => ({
 		userInfo: {
@@ -25,17 +23,16 @@ export const useUserStore = defineStore('user', {
 		//获取首页地址
 		getHomePath: (state) => {
 			const premission = usePremissionStore();
-			const path = state.userInfo.menuList[0].path;
-			premission.pathLevel.push(path);
-			return path;
+			if (premission.pathLevel.length !== 0) {
+				return premission.getCurrentPath;
+			} else {
+				const path = state.userInfo.menuList[0].path;
+				premission.pathLevel.push(path);
+				return path;
+			}
 		},
 		//登录函数
-		async LoginRequest() {
-			const result = await MyRequest.get({
-				url: '/studentmanager/sysuser/list',
-			});
-			console.log(result);
-			console.log('登录了一次');
+		LoginRequest() {
 			this.userInfo = {
 				role: 1,
 				token: 'admin',

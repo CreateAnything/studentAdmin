@@ -19,6 +19,7 @@ const useLogin = () => {
 	const onFinish = (): void => {
 		user.LoginRequest;
 		const path = user.getHomePath;
+		console.log(path);
 		router.push(path);
 	};
 	return { formState, onFinish };

@@ -33,9 +33,5 @@ const publicRoute: RouteRecordRaw[] = [
 		name: 'sysjindex',
 		component: LayOut,
 	},
-	// {
-	// 	path: '/:catchAll(.*)',
-	// 	redirect: '/404',
-	// },
 ];
 export default publicRoute;

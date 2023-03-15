@@ -58,6 +58,8 @@ class Request {
 						res =
 							config.interceptors.responseInterceptors(res);
 						reslove(res);
+					} else {
+						reslove(res);
 					}
 				})
 				.catch((error: AxiosError) => reject(error));

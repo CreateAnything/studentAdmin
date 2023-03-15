@@ -29,6 +29,7 @@ export function createRouterGuards(
 		const user = useUserStore(store);
 		const premission = usePremissionStore(store);
 		const token = user.userInfo.token;
+		document.title = to.meta.title as string;
 		if (token) {
 			if (!premission.hasPrivateRoutes) {
 				premission.generateRouter(); //序列化路由

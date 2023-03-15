@@ -6,6 +6,9 @@ export const MyRequest = new Request({
 		requestInterceptors: (config) => {
 			return config;
 		},
+		responseInterceptors: (response) => {
+			return response.data;
+		},
 		responseInterceptorCatch(err) {
 			return Promise.reject(err);
 		},

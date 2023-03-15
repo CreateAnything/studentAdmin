@@ -31,7 +31,7 @@ const global = useGlobalStore();
 .main-page {
 	margin: 24px @p-media;
 	padding: 24px;
-	background-color: #fff;
+	background-color: #f5f7f9;
 	padding: 0;
 	height: 100vh;
 }

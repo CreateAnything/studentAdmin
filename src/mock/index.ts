@@ -1,4 +1,4 @@
-import { MenuItem } from '@/vite-env';
+import { MenuItem } from 'global';
 
 export const studentMenu: MenuItem[] = [
 	{
@@ -40,7 +40,7 @@ export const menuList: MenuItem[] = [
 		description: '管理员首页',
 		parentId: '000000',
 		isMenu: true,
-		id: '01234',
+		id: '0',
 	},
 	{
 		path: '/admin/information',
@@ -53,7 +53,7 @@ export const menuList: MenuItem[] = [
 		description: '信息管理',
 		parentId: '000000',
 		isMenu: true,
-		id: '01236',
+		id: '1',
 		children: [
 			{
 				path: '/admin/information/studentInformation',
@@ -64,9 +64,9 @@ export const menuList: MenuItem[] = [
 				enable: true,
 				isLink: true,
 				description: '学生信息管理',
-				parentId: '01236',
+				parentId: '1',
 				isMenu: true,
-				id: '012361',
+				id: '11',
 			},
 			{
 				path: '/admin/information/teacherInformation',
@@ -78,8 +78,8 @@ export const menuList: MenuItem[] = [
 				isLink: true,
 				isMenu: true,
 				description: '教师信息管理',
-				parentId: '01236',
-				id: '012362',
+				parentId: '1',
+				id: '12',
 			},
 		],
 	},
@@ -94,14 +94,14 @@ export const menuList: MenuItem[] = [
 		isLink: false,
 		description: '管理员权限管理',
 		parentId: '000000',
-		id: '0987',
+		id: '2',
 		children: [
 			{
 				path: '/admin/authority/role',
 				name: '角色管理',
-				parentId: '0987',
+				parentId: '2',
 				isMenu: true,
-				id: '09871',
+				id: '21',
 				key: 'authority_role',
 				order: 2,
 				enable: true,
@@ -112,8 +112,8 @@ export const menuList: MenuItem[] = [
 			{
 				path: '/admin/authority/menu',
 				name: '菜单管理',
-				parentId: '0987',
-				id: '09872',
+				parentId: '2',
+				id: '22',
 				key: 'authority_menu',
 				order: 2,
 				enable: true,

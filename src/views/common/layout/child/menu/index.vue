@@ -1,9 +1,9 @@
 <script setup lang="ts" name="Menu">
 import { usePremissionStore } from '@/store/premission';
-import { MenuItem } from '@/vite-env';
 import { ref, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import SubMenu from './menuItem/index.vue';
+import { MenuItem } from 'global';
 const props = defineProps<{
 	menuList: MenuItem[];
 }>();

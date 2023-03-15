@@ -1,5 +1,12 @@
 import { RouteRecordRaw } from 'vue-router';
 
+//把属性中指定部分变为可选
+declare type ToParitalDes<T, U extends keyof T> = Pick<
+	T,
+	Exclude<keyof T, U>
+> &
+	Pick<T, U>;
+
 declare type MenuItem = {
 	path: string; //路由跳转地址
 	isLink: boolean; //路由是否是一个链接
