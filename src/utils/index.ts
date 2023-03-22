@@ -130,3 +130,15 @@ export const levelMapTree = <T extends { left: T; right: T }>(
 	}
 	return res;
 };
+
+//将数组分成指定数目的二维数组
+export const SliceArr = (arr: any[], size: number) => {
+	const newArr = [];
+	const len = arr.length;
+	const lineNum = len % size === 0 ? len / size : Math.ceil(len / size);
+	for (let i = 0; i < lineNum; i++) {
+		const Item = arr.slice(i * size, (i + 1) * size);
+		newArr.push(Item);
+	}
+	return newArr;
+};

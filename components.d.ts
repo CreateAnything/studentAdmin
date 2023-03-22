@@ -16,6 +16,7 @@ declare module '@vue/runtime-core' {
 		ACard: typeof import('ant-design-vue/es')['Card'];
 		ACheckbox: typeof import('ant-design-vue/es')['Checkbox'];
 		ACol: typeof import('ant-design-vue/es')['Col'];
+		ADatePicker: typeof import('ant-design-vue/es')['DatePicker'];
 		ADivider: typeof import('ant-design-vue/es')['Divider'];
 		ADropdown: typeof import('ant-design-vue/es')['Dropdown'];
 		AForm: typeof import('ant-design-vue/es')['Form'];
@@ -30,6 +31,8 @@ declare module '@vue/runtime-core' {
 		AMenu: typeof import('ant-design-vue/es')['Menu'];
 		AMenuItem: typeof import('ant-design-vue/es')['MenuItem'];
 		AModal: typeof import('ant-design-vue/es')['Modal'];
+		APopconfirm: typeof import('ant-design-vue/es')['Popconfirm'];
+		ARangePicker: typeof import('ant-design-vue/es')['RangePicker'];
 		ARow: typeof import('ant-design-vue/es')['Row'];
 		ASelect: typeof import('ant-design-vue/es')['Select'];
 		ASelectOption: typeof import('ant-design-vue/es')['SelectOption'];
@@ -47,6 +50,7 @@ declare module '@vue/runtime-core' {
 		ATree: typeof import('ant-design-vue/es')['Tree'];
 		ATreeSelect: typeof import('ant-design-vue/es')['TreeSelect'];
 		Breadcrumb: typeof import('./src/components/business/breadcrumb/index.vue')['default'];
+		Confirm: typeof import('./src/components/commmon/confirm/index.vue')['default'];
 		Head: typeof import('./src/components/business/page/child/head/index.vue')['default'];
 		Header: typeof import('./src/components/single/header/index.vue')['default'];
 		HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];

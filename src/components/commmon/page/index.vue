@@ -19,9 +19,12 @@ const props = withDefaults(defineProps<Props>(), {
 <style lang="less" scoped>
 .content {
 	width: 100%;
-	height: 100vh;
 	display: flex;
+	height: 100%;
 	flex-direction: column;
+	box-sizing: border-box;
+	padding-bottom: 20px;
+	overflow: hidden;
 	.head-con {
 		min-height: 100px;
 		margin-bottom: 10px;

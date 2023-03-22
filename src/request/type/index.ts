@@ -12,6 +12,19 @@ enum RequestEnums {
 	SUCCESS = 200, // 请求成功 request successfully
 }
 
+interface GetPage<T> {
+	currPage: number;
+	list: T[];
+	pageSize: number;
+	totalCount: number;
+	totalPage: number;
+}
+interface GetResponse<T> {
+	code: number;
+	msg: string;
+	page: GetPage<T>;
+}
+
 interface RequestInterceptors {
 	//请求拦截器
 	requestInterceptors?: (
@@ -31,4 +44,9 @@ interface RequestInterceptors {
 interface RequestConfig extends AxiosRequestConfig {
 	interceptors?: RequestInterceptors;
 }
-export type { RequestConfig, RequestEnums, RequestInterceptors };
+export type {
+	GetResponse,
+	RequestConfig,
+	RequestEnums,
+	RequestInterceptors,
+};

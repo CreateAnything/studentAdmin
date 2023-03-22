@@ -43,6 +43,9 @@ const columns: TableColumnsType = [
 		align: 'center',
 	},
 ];
+const onDeleteConfirmOk = () => {
+	console.log('删除');
+};
 </script>
 
 <template>
@@ -59,13 +62,7 @@ const columns: TableColumnsType = [
 			</template>
 			<template v-if="column.key === 'action'">
 				<a-button type="primary" size="small">编辑</a-button>
-				<a-button
-					style="margin-left: 5px"
-					size="small"
-					type="primary"
-					danger
-					>删除</a-button
-				>
+				<confirm @confirm="onDeleteConfirmOk"> </confirm>
 			</template>
 		</template>
 	</a-table>

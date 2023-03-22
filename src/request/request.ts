@@ -5,7 +5,7 @@ import axios, {
 	AxiosResponse,
 	InternalAxiosRequestConfig,
 } from 'axios';
-import { RequestConfig, RequestInterceptors } from './type';
+import { GetResponse, RequestConfig, RequestInterceptors } from './type';
 
 class Request {
 	private axiosInstance: AxiosInstance; //定义axios实列
@@ -66,8 +66,8 @@ class Request {
 		});
 	}
 
-	get<T>(config: RequestConfig): Promise<T> {
-		return this.request<T>({ ...config, method: 'GET' });
+	get<T>(config: RequestConfig): Promise<GetResponse<T>> {
+		return this.request<GetResponse<T>>({ ...config, method: 'GET' });
 	}
 	post<T>(config: RequestConfig): Promise<T> {
 		return this.request<T>({ ...config, method: 'POST' });

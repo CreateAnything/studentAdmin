@@ -5,7 +5,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { ConfigEnv, defineConfig, loadEnv } from 'vite';
 import {
-	AntdResolve,
+	AndDesignVueResolve,
 	createStyleImportPlugin,
 } from 'vite-plugin-style-import';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
@@ -21,7 +21,7 @@ export default ({ mode }: ConfigEnv) => {
 			}),
 			//antd组件样式按需引入
 			createStyleImportPlugin({
-				resolves: [AntdResolve()],
+				resolves: [AndDesignVueResolve()],
 			}),
 			createSvgIconsPlugin({
 				// 指定需要缓存的图标文件夹目录
@@ -41,6 +41,7 @@ export default ({ mode }: ConfigEnv) => {
 			proxy: {
 				'/api': {
 					target: 'http://localhost:8080',
+					secure: false,
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/api/, ''),
 				},
