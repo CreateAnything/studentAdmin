@@ -8,6 +8,15 @@ export const useGlobalStore = defineStore('global', {
 		collapsed: false,
 		isLoading: false,
 	}),
+	persist: {
+		enabled: true,
+		strategies: [
+			{
+				storage: localStorage,
+				paths: ['collapsed'],
+			},
+		],
+	},
 	getters: {},
 	actions: {
 		showLoading() {

@@ -6,9 +6,8 @@ import axios, {
 	InternalAxiosRequestConfig,
 } from 'axios';
 import { GetResponse, RequestConfig, RequestInterceptors } from './type';
-
 class Request {
-	private axiosInstance: AxiosInstance; //定义axios实列
+	public axiosInstance: AxiosInstance; //定义axios实列
 	private interceptors!: RequestInterceptors; //定义拦截器
 	constructor(config: RequestConfig) {
 		this.axiosInstance = axios.create(config);

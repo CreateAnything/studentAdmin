@@ -1,8 +1,14 @@
 import { SearchConfig } from '@/components/commmon/search/type';
 import { TableColumnsType } from 'ant-design-vue';
-import { onMounted, ref } from 'vue';
-import { findAllStudentList } from './request';
-import { Student, StudentSearch } from './type';
+import { Ref, onMounted, ref } from 'vue';
+import Add from './add/index.vue';
+import {
+	addStudent,
+	deleteStudent,
+	findAllStudentList,
+	findStudentById,
+} from './request';
+import { Student, StudentForm, StudentSearch } from './type';
 const ColumsCofnig: TableColumnsType = [
 	{
 		title: '序号',
@@ -16,15 +22,19 @@ const ColumsCofnig: TableColumnsType = [
 	},
 	{
 		title: '班级',
-		dataIndex: 'className',
+		dataIndex: 'clazzName',
 	},
 	{
 		title: '部门',
-		dataIndex: 'department',
+		dataIndex: 'dname',
 	},
 	{
 		title: '性别',
 		dataIndex: 'sex',
+	},
+	{
+		title: '生日',
+		dataIndex: 'birthday',
 	},
 	{
 		title: '操作',
@@ -49,7 +59,7 @@ const searchConfig: SearchConfig[] = [
 		type: 'input',
 		inputType: 'text',
 		placeholder: '请输入学生班级',
-		modekey: 'className',
+		modekey: 'classId',
 		label: '班级',
 	},
 	{
@@ -57,25 +67,41 @@ const searchConfig: SearchConfig[] = [
 		type: 'input',
 		inputType: 'text',
 		placeholder: '请输入学生部门',
-		modekey: 'department',
+		modekey: 'departmentId',
 		label: '部门',
 	},
 ];
-const useStudent = () => {
+const useStudent = (addCompnentRef: Ref<null | typeof Add>) => {
 	const Colums = ColumsCofnig;
 	const config = searchConfig;
 	const studentList = ref<Student[]>([]);
 	const loading = ref<boolean>(false);
+	const editStu = ref<Student>();
 	const formState = ref<StudentSearch>({
 		name: '',
-		className: '',
-		department: '',
+		classId: '',
+		departmentId: '',
 	});
-	const deleteStudent = async (id: string) => {
-		await deleteStudent(id);
+	const removeStudent = async (id: number) => {
+		await deleteStudent([id]);
+		init();
+	};
+	const onAdd = () => {
+		addCompnentRef.value && addCompnentRef.value?.openModel(false);
+	};
+	const onEdit = async (id: number) => {
+		const student = await findStudentById(id);
+		addCompnentRef.value &&
+			addCompnentRef.value?.openModel(true, student);
+	};
+	const onAddStudentEvent = async (payload: StudentForm) => {
+		await addStudent(payload);
+		init();
 	};
 	const init = async () => {
+		loading.value = true;
 		studentList.value = await findAllStudentList();
+		loading.value = false;
 	};
 	onMounted(() => {
 		init();
@@ -86,7 +112,12 @@ const useStudent = () => {
 		Colums,
 		studentList,
 		loading,
-		deleteStudent,
+		editStu,
+		onEdit,
+		onAddStudentEvent,
+		removeStudent,
+		onAdd,
+		init,
 	};
 };
 export default useStudent;

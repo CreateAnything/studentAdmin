@@ -22,13 +22,13 @@ type SelectSearchField = SearchFieldBase & {
 
 type DatepickerSearchField = SearchFieldBase & {
 	type: 'datepicker';
-	format?: boolean;
+	format?: string;
 	picker: Picker;
 };
 
 type DateSearchField = SearchFieldBase & {
 	type: 'date';
-	format?: boolean;
+	format?: string;
 };
 
 type SearchField =
@@ -37,23 +37,9 @@ type SearchField =
 	| DatepickerSearchField
 	| DateSearchField;
 
-//其他配置项
-type CardBaseConfig = {
-	title?: string;
-	loading?: boolean;
-	descModel?: boolean;
-};
-type CardMode = CardBaseConfig & {
-	modelValue: FormState;
-};
-type DescMode = CardBaseConfig & {
-	desc: string;
-};
-
-export type ModeConfig = CardMode | DescMode;
 export type SelectOption = {
 	title: string;
-	value: unknown;
+	value: any;
 };
 export type SearchConfig = SearchField;
-export type FormState = Record<string, unknown>;
+export type FormState = Record<string, any>;

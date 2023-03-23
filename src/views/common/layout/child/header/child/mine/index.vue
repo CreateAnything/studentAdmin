@@ -16,6 +16,7 @@ const UpdatePasswordHandle = () => {
 };
 
 const ExitLoginHandle = () => {
+	localStorage.clear();
 	router.push('/login');
 };
 const dropList: DropListItem[] = [

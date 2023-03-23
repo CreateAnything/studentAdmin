@@ -120,10 +120,7 @@ watch(
 					<a-button type="primary" @click="onSearch"
 						>查询</a-button
 					>
-					<a-button
-						type="info"
-						style="margin: 0 10px"
-						@click="onReset"
+					<a-button style="margin: 0 10px" @click="onReset"
 						>重置</a-button
 					>
 				</a-col>

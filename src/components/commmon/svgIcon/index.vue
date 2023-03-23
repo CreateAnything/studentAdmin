@@ -10,7 +10,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	color: 'white',
 	prefix: 'icon',
-	className: 'svg-icon ',
+	className: 'svg-icon',
 });
 const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 </script>

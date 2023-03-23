@@ -1,8 +1,12 @@
 import { MenuItem } from 'global';
 import { Component } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
+import myMessage from './message';
 import { UseTreeFnType } from './type';
-
+//全局消息
+export const createMessage = () => {
+	return myMessage.getInstance();
+};
 //将路径进行转化
 export const GetPath = (roleName: string, key: string): string => {
 	let result = '';

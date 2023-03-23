@@ -1,46 +1,44 @@
 <script setup lang="ts">
-import type { FormInstance } from 'ant-design-vue';
-import { Rule } from 'ant-design-vue/lib/form';
-import { ref } from 'vue';
-import { addStudent } from '../request';
-import { StudentForm } from '../type';
-const rules: Record<string, Rule[]> = {
-	name: [
-		{
-			required: true,
-			trigger: 'change',
-			message: '请输入学生姓名',
-		},
-	],
-	className: [
-		{
-			required: true,
-			trigger: 'change',
-			message: '请输入学生班级',
-		},
-	],
-};
+import dayjs from '_dayjs@1.11.7@dayjs';
+import { Student, StudentForm } from '../type';
+import useAdd from './useAdd';
+const emit = defineEmits<{
+	(e: 'submit', payload: StudentForm): void;
+}>();
+const {
+	validateInfos,
+	visible,
+	formState,
+	dateFormat,
+	classList,
+	departmentList,
+	isEdit,
+	resetFields,
+	validate,
+} = useAdd();
 
-const visible = ref<boolean>();
-const formInstance = ref<FormInstance>();
-const formState = ref<StudentForm>({
-	className: '',
-	sex: '男',
-	name: '',
-	department: '',
-	birthDay: '',
-});
-
-const handleSubmit = async () => {
-	await addStudent(formState.value);
-};
-
+//点击取消
 const handleCancle = () => {
-	formInstance.value?.resetFields();
+	resetFields();
 	visible.value = false;
 };
 
-const openModel = () => {
+//提交
+const handleSubmit = () => {
+	validate().then(() => {
+		emit('submit', formState.value);
+		handleCancle();
+	});
+};
+//打开Model
+const openModel = (type: boolean, payload: Student) => {
+	isEdit.value = type;
+	if (payload) {
+		formState.value = payload;
+		formState.value.birthday = dayjs(
+			payload.birthday
+		) as unknown as string;
+	}
 	visible.value = true;
 };
 
@@ -51,7 +49,7 @@ defineExpose({
 <template>
 	<a-modal
 		v-model:visible="visible"
-		title="学生新增"
+		:title="!isEdit ? '新增学生' : '编辑学生'"
 		:width="1000 + 'px'"
 		@cancel="handleCancle"
 		@ok="handleSubmit"
@@ -59,16 +57,14 @@ defineExpose({
 		<a-form
 			:model="formState"
 			name="basic"
-			ref="studentformRef"
 			:label-col="{ span: 6 }"
 			:wrapper-col="{ span: 24 }"
-			:rules="rules"
 			labelAlign="right"
 			autocomplete="off"
 		>
 			<a-row :gutter="[16, 16]">
 				<a-col :span="6">
-					<a-form-item label="姓名" name="name">
+					<a-form-item label="姓名" v-bind="validateInfos.name">
 						<a-input
 							v-model:value="formState.name"
 							placeholder="请输入学生姓名"
@@ -76,23 +72,57 @@ defineExpose({
 					</a-form-item>
 				</a-col>
 				<a-col :span="6">
-					<a-form-item label="班级" name="className">
+					<a-form-item
+						label="密码"
+						v-bind="validateInfos.password"
+					>
 						<a-input
-							v-model:value="formState.className"
-							placeholder="请输入学生班级"
+							type="password"
+							v-model:value="formState.password"
+							placeholder="请输入学生姓名"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :span="6">
-					<a-form-item label="部门" name="department">
-						<a-input
-							v-model:value="formState.department"
-							placeholder="请输入学生部门"
-						/>
+					<a-form-item
+						label="班级"
+						v-bind="validateInfos.classId"
+					>
+						<a-select
+							v-model:value="formState.classId"
+							placeholder="请选择学生部门"
+						>
+							<a-select-option
+								v-for="item in classList"
+								:key="item.id"
+								:value="item.id"
+							>
+								{{ item.clazzName }}
+							</a-select-option>
+						</a-select>
 					</a-form-item>
 				</a-col>
 				<a-col :span="6">
-					<a-form-item label="性别" name="sex">
+					<a-form-item
+						label="部门"
+						v-bind="validateInfos.departmentId"
+					>
+						<a-select
+							v-model:value="formState.departmentId"
+							placeholder="请选择学生部门"
+						>
+							<a-select-option
+								v-for="item in departmentList"
+								:key="item.id"
+								:value="item.id"
+							>
+								{{ item.name }}
+							</a-select-option>
+						</a-select>
+					</a-form-item>
+				</a-col>
+				<a-col :span="6">
+					<a-form-item label="性别" v-bind="validateInfos.sex">
 						<a-select
 							v-model:value="formState.sex"
 							placeholder="请选择学生性别"
@@ -107,11 +137,15 @@ defineExpose({
 					</a-form-item>
 				</a-col>
 				<a-col :span="6">
-					<a-form-item label="生日" name="birthDay">
+					<a-form-item
+						label="生日"
+						v-bind="validateInfos.birthday"
+					>
 						<a-date-picker
 							style="width: 100%"
+							:format="dateFormat"
 							placeholder="请选择出生日期"
-							v-model:value="formState.birthDay"
+							v-model:value="formState.birthday"
 						/>
 					</a-form-item>
 				</a-col>

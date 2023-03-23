@@ -2,12 +2,18 @@
 import { ref } from 'vue';
 import Add from './add/index.vue';
 import useStudent from './useStudent';
-const addRef = ref<typeof Add | null>(null);
-const { config, formState, Colums, studentList, loading, deleteStudent } =
-	useStudent();
-const onAdd = () => {
-	addRef.value && addRef.value.openModel();
-};
+const addCompnentRef = ref();
+const {
+	config,
+	formState,
+	Colums,
+	studentList,
+	loading,
+	removeStudent,
+	onAdd,
+	onAddStudentEvent,
+	onEdit,
+} = useStudent(addCompnentRef);
 </script>
 <template>
 	<Page :showHead="true" v-loading="loading">
@@ -15,7 +21,7 @@ const onAdd = () => {
 			<Search :conifg="config" :modelValue="formState" />
 		</template>
 		<template #main>
-			<Add ref="addRef" />
+			<Add ref="addCompnentRef" @submit="onAddStudentEvent" />
 			<a-card title="学生信息展示">
 				<template #extra>
 					<a-button type="primary" @click="onAdd"
@@ -29,11 +35,14 @@ const onAdd = () => {
 				>
 					<template #bodyCell="{ column, record }">
 						<template v-if="column.key == 'action'">
-							<a-button type="primary" size="small"
+							<a-button
+								type="primary"
+								size="small"
+								@click="onEdit(record.id)"
 								>编辑</a-button
 							>
 							<confirm
-								@confirm="deleteStudent(record.id)"
+								@confirm="() => removeStudent(record.id)"
 							/>
 						</template>
 					</template>
