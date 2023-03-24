@@ -42,4 +42,3 @@ export type SelectOption = {
 	value: any;
 };
 export type SearchConfig = SearchField;
-export type FormState = Record<string, any>;

@@ -1,4 +1,4 @@
-import { MenuItem } from 'global';
+import { FormState, MenuItem } from 'global';
 import { Component } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
 import myMessage from './message';
@@ -6,6 +6,12 @@ import { UseTreeFnType } from './type';
 //全局消息
 export const createMessage = () => {
 	return myMessage.getInstance();
+};
+//将一个对象的key复制给另一个对象
+export const mergeObject = (target: FormState, sourse: FormState) => {
+	for (const key in target) {
+		target[key] = sourse[key];
+	}
 };
 //将路径进行转化
 export const GetPath = (roleName: string, key: string): string => {

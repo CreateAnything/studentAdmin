@@ -51,6 +51,8 @@ declare module '@vue/runtime-core' {
 		ATreeSelect: typeof import('ant-design-vue/es')['TreeSelect'];
 		Breadcrumb: typeof import('./src/components/business/breadcrumb/index.vue')['default'];
 		Confirm: typeof import('./src/components/commmon/confirm/index.vue')['default'];
+		DescHead: typeof import('./src/components/commmon/descHead/index.vue')['default'];
+		Form: typeof import('./src/components/commmon/modelForm/form/index.vue')['default'];
 		Head: typeof import('./src/components/business/page/child/head/index.vue')['default'];
 		Header: typeof import('./src/components/single/header/index.vue')['default'];
 		HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
@@ -59,6 +61,7 @@ declare module '@vue/runtime-core' {
 		Menu: typeof import('./src/components/single/menu/index.vue')['default'];
 		MenuItem: typeof import('./src/components/single/menu/menuItem/index.vue')['default'];
 		Mine: typeof import('./src/components/single/header/child/mine/index.vue')['default'];
+		ModelForm: typeof import('./src/components/commmon/modelForm/index.vue')['default'];
 		Page: typeof import('./src/components/commmon/page/index.vue')['default'];
 		ParentView: typeof import('./src/components/commmon/ParentView/index.vue')['default'];
 		RouterLink: typeof import('vue-router')['RouterLink'];
@@ -66,5 +69,6 @@ declare module '@vue/runtime-core' {
 		Search: typeof import('./src/components/commmon/search/index.vue')['default'];
 		Setting: typeof import('./src/components/single/header/child/setting/index.vue')['default'];
 		SvgIcon: typeof import('./src/components/commmon/svgIcon/index.vue')['default'];
+		Table: typeof import('./src/components/commmon/table/index.vue')['default'];
 	}
 }

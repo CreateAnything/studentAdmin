@@ -1,37 +1,42 @@
 <script setup lang="ts">
 import DescHead from '@/components/commmon/descHead/index.vue';
-import ModelFrom from '@/components/commmon/modelForm/index.vue';
+import { FormItem } from '@/components/commmon/modelForm/form/type';
+import ModelForm from '@/components/commmon/modelForm/index.vue';
 import Page from '@/components/commmon/page/index.vue';
-import useClass from './useClass';
+import { onMounted, ref } from 'vue';
+import { Colums, createModelConfig } from './config';
+import useTeacher from './useTeacher';
+const config = ref<FormItem[]>([]);
 const {
 	loading,
-	configs,
-	colums,
+	teacherList,
 	classList,
-	modelRef,
-	stateForm,
-	onAdd,
-	onSubmit,
 	onEdit,
-	removeClass,
-} = useClass();
+	modelRef,
+	onRemove,
+	onAdd,
+	teacherForm,
+} = useTeacher();
+
+onMounted(() => {
+	console.log(classList.value);
+	config.value = createModelConfig(classList.value);
+});
 </script>
+
 <template>
 	<Page :show-head="true" v-loading="loading">
 		<template #head>
-			<DescHead title="班级管理">
-				<template #body>
-					这是一个用于对班级进行增删改查的模块
-				</template>
+			<DescHead title="教师管理">
+				<template #body>用于教师的增删改查模块</template>
 			</DescHead>
 		</template>
 		<template #main>
 			<a-card>
-				<ModelFrom
-					v-model:state="stateForm"
+				<ModelForm
 					ref="modelRef"
-					@submit="onSubmit"
-					:config="configs"
+					v-model:state="teacherForm"
+					:config="config"
 				/>
 				<template #extra>
 					<a-button type="primary" @click="onAdd"
@@ -40,8 +45,8 @@ const {
 				</template>
 				<a-table
 					style="height: 100%"
-					:columns="colums"
-					:data-source="classList"
+					:columns="Colums"
+					:data-source="teacherList"
 				>
 					<template #bodyCell="{ column, record }">
 						<template v-if="column.key == 'action'">
@@ -52,7 +57,7 @@ const {
 								>编辑</a-button
 							>
 							<confirm
-								@confirm="() => removeClass(record.id)"
+								@confirm="() => onRemove(record.id)"
 							/>
 						</template>
 					</template>

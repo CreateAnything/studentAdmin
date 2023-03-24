@@ -8,7 +8,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	size: 'large',
 	tip: 'Loading...',
-	delay: 500,
+	delay: 0,
 });
 
 const spinning = ref<boolean>(true);

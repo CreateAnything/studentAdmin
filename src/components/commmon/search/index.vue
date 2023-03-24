@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { FormInstance } from 'ant-design-vue';
+import { FormState } from 'global';
 import { ref, toRefs, watch } from 'vue';
-import { FormState, SearchConfig } from './type';
+import { SearchConfig } from './type';
 interface Props {
 	title?: string;
 	conifg: SearchConfig[];
