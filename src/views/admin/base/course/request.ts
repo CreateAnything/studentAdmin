@@ -5,7 +5,7 @@ export const findAllCourse = async (): Promise<CourseItem[]> => {
 	const result = await MyRequest.get<CourseItem[]>({
 		url: Api.FIND_COURSE,
 	});
-	return result.page.list!;
+	return result.page;
 };
 
 //新增课程

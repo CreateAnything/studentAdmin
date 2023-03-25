@@ -65,8 +65,16 @@ watch(
 						:label="item.label"
 						:name="item.key"
 						:rules="item.rules"
+						:label-col="item.labelCol"
 					>
+						<a-textarea
+							v-if="item.inputType === 'area'"
+							:placeholder="item.placeholder"
+							v-model:value="stateForm[item.key]"
+							:rows="item.rows"
+						></a-textarea>
 						<a-input
+							v-if="item.inputType !== 'area'"
 							:type="item.inputType"
 							:placeholder="item.placeholder"
 							v-model:value="stateForm[item.key]"
@@ -77,6 +85,7 @@ watch(
 						:label="item.label"
 						:name="item.key"
 						:rules="item.rules"
+						:label-col="item.labelCol"
 					>
 						<a-select
 							:placeholder="item.placeholder"
@@ -92,6 +101,7 @@ watch(
 						:name="item.key"
 						:placeholder="item.placeholder"
 						:rules="item.rules"
+						:label-col="item.labelCol"
 					>
 						<a-date-picker
 							class="full-width"

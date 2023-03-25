@@ -1,8 +1,9 @@
+import { MenuTree } from '@/views/admin/authority/menu/type';
 import { FormState, MenuItem } from 'global';
 import { Component } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
 import myMessage from './message';
-import { UseTreeFnType } from './type';
+import { TreeConfig, UseTreeFnType } from './type';
 //全局消息
 export const createMessage = () => {
 	return myMessage.getInstance();
@@ -55,6 +56,33 @@ export const GetRoutesByMenu = (
 		return routes;
 	});
 };
+//将菜单变成tree
+export const GetListToTree = (config: TreeConfig): MenuTree[] => {
+	const {
+		data,
+		parentKey = 'parentId',
+		idKey = 'id',
+		sortKey = 'sort',
+	} = config;
+	const tree: MenuTree[] = [];
+	const treeMap = data.reduce((pre, next) => {
+		next.children = [];
+		pre[next[idKey]] = next;
+		return pre;
+	}, {});
+	for (let i = 0; i < data.length; i++) {
+		const menu = treeMap[data[i][parentKey]];
+		if (menu) {
+			menu.children.push(data[i]);
+			menu.children = menu.children.sort(
+				(a: any, b: any) => a[sortKey] - b[sortKey]
+			);
+		} else {
+			tree.push(data[i]);
+		}
+	}
+	return tree.sort((a: any, b: any) => a[sortKey] - b[sortKey]);
+};
 
 //递归获取tree的每一项
 export const mapTreeMenu = (
@@ -105,7 +133,7 @@ function getTreeNameArrayById(tree: MenuItem[], Id: string): string[] {
 
 //将树变成list
 //树状解构转列表
-export function getTreeToList<T extends MenuItem>(data: T[]): T[] {
+export function getTreeToList<T extends MenuTree>(data: T[]): T[] {
 	const res: T[] = [];
 	const deep = (tree: T[]): void => {
 		for (let i = 0; i < tree.length; i++) {

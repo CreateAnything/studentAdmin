@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { TreeSelectProps } from 'ant-design-vue';
 import type { Rule } from 'ant-design-vue/es/form';
-import { MenuItem } from 'global';
 import { reactive, toRefs } from 'vue';
+import { Roels } from '../../user/type';
+import { MenuItem } from '../type';
 interface Props {
 	visible: boolean;
 	width?: number;
@@ -40,14 +41,16 @@ const rules: Record<string, Rule[]> = {
 };
 const formState = reactive<Form>({
 	parentId: '',
-	path: '',
+	url: '',
 	icon: '',
-	isLink: false,
-	isMenu: true,
-	key: '',
-	order: 0,
-	enable: true,
+	isLink: 0,
+	isMenu: 0,
+	keyd: '',
+	sort: 0,
+	enable: 0,
 	name: '',
+	description: '',
+	roleId: Roels.Admin,
 });
 
 const submitForm = () => {
@@ -85,17 +88,17 @@ const hanCancel = () => {
 						</a-form-item>
 					</a-col>
 					<a-col :span="8">
-						<a-form-item label="跳转路径" name="path">
+						<a-form-item label="跳转路径" name="url">
 							<a-input
-								v-model:value="formState.path"
+								v-model:value="formState.url"
 								placeholder="请输入跳转路径"
 							/>
 						</a-form-item>
 					</a-col>
 					<a-col :span="8">
-						<a-form-item label="菜单key" name="key">
+						<a-form-item label="菜单key" name="keyd">
 							<a-input
-								v-model:value="formState.key"
+								v-model:value="formState.keyd"
 								placeholder="请输入菜单key"
 							/>
 						</a-form-item>
@@ -109,9 +112,9 @@ const hanCancel = () => {
 						</a-form-item>
 					</a-col>
 					<a-col :span="8">
-						<a-form-item label="菜单排序" name="order">
+						<a-form-item label="菜单排序" name="sort">
 							<a-input
-								v-model:value="formState.order"
+								v-model:value="formState.sort"
 								placeholder="请输入菜单排序"
 							/>
 						</a-form-item>

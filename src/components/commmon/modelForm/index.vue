@@ -91,7 +91,14 @@ defineExpose<ModelExpose>({
 						:name="item.key"
 						:rules="item.rules"
 					>
+						<a-textarea
+							v-if="item.inputType === 'area'"
+							:placeholder="item.placeholder"
+							v-model:value="stateForm[item.key]"
+							:rows="item.rows"
+						></a-textarea>
 						<a-input
+							v-else
 							:type="item.inputType"
 							:placeholder="item.placeholder"
 							v-model:value="stateForm[item.key]"
@@ -110,6 +117,28 @@ defineExpose<ModelExpose>({
 							class="full-width"
 						>
 						</a-select>
+					</a-form-item>
+					<a-form-item
+						v-if="item.type === 'treeSelecter'"
+						:label="item.label"
+						:name="item.key"
+						:rules="item.rules"
+					>
+						<a-tree-select
+							v-model:value="stateForm[item.key]"
+							:show-search="item.showSearch"
+							style="width: 100%"
+							:placeholder="item.placeholder"
+							:dropdown-style="{
+								maxHeight: item.maxHeight + 'px',
+								overflow: 'auto',
+							}"
+							allow-clear
+							tree-default-expand-all
+							:tree-data="item.treeData"
+							:field-names="item.fieldNames"
+						>
+						</a-tree-select>
 					</a-form-item>
 					<a-form-item
 						v-if="item.type === 'switch'"

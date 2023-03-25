@@ -1,0 +1,96 @@
+import { FormItem } from '@/components/commmon/modelForm/form/type';
+import { MenuTree } from './type';
+
+export const createModelConfig = (treeDta: MenuTree[]): FormItem[] => {
+	return [
+		{
+			label: '菜单名称',
+			type: 'input',
+			inputType: 'text',
+			span: 8,
+			key: 'name',
+			placeholder: '请输入菜单名称',
+		},
+		{
+			label: '跳转路径',
+			type: 'input',
+			inputType: 'text',
+			span: 8,
+			key: 'url',
+			placeholder: '请输入跳转路径',
+		},
+		{
+			label: '菜单key',
+			type: 'input',
+			inputType: 'text',
+			span: 8,
+			key: 'keyd',
+			placeholder: '请输入菜单key',
+		},
+		{
+			label: '菜单图标',
+			type: 'input',
+			inputType: 'text',
+			span: 8,
+			key: 'icon',
+			placeholder: '请输入菜单图标',
+		},
+		{
+			label: '菜单排序',
+			type: 'input',
+			inputType: 'text',
+			span: 8,
+			key: 'sort',
+			placeholder: '请输入菜单排序值',
+		},
+		{
+			label: '父级菜单',
+			type: 'treeSelecter',
+			span: 8,
+			key: 'parentId',
+			placeholder: '请输入父级菜单',
+			showSearch: true,
+			maxHeight: 400,
+			fieldNames: {
+				children: 'children',
+				label: 'name',
+				value: 'id',
+			},
+			treeData: treeDta,
+		},
+		{
+			label: '是否链接',
+			type: 'switch',
+			span: 8,
+			key: 'isLink',
+			checkedValue: 1,
+			unCheckedValue: 0,
+		},
+		{
+			label: '是否菜单',
+			type: 'switch',
+			span: 8,
+			key: 'isMenu',
+			checkedValue: 1,
+			unCheckedValue: 0,
+		},
+		{
+			label: '是否启用',
+			type: 'switch',
+			span: 8,
+			key: 'enable',
+			checkedValue: 1,
+			unCheckedValue: 0,
+		},
+		{
+			label: '菜单描述',
+			type: 'input',
+			inputType: 'area',
+			labelCol: { span: 10 },
+			span: 24,
+			key: 'description',
+			placeholder: '请输入菜单描述',
+			rows: 4,
+		},
+	];
+};

@@ -13,6 +13,7 @@ type BaseConfig = {
 	key: string;
 	label: string;
 	span: number;
+	labelCol?: { span: number };
 } & FormItemType;
 
 type InputConfig = {
@@ -20,6 +21,7 @@ type InputConfig = {
 	inputType: InputType;
 	showCount?: boolean;
 	disabled?: false;
+	rows?: number;
 } & BaseConfig;
 
 type SelectConfig = {
@@ -37,6 +39,14 @@ type DatePickerConfig = {
 	valueFormat?: string;
 } & BaseConfig;
 
+type TreeSelectConfig = {
+	type: 'treeSelecter';
+	showSearch?: boolean;
+	fieldNames: { children: string; label: string; value: string };
+	treeData: any[];
+	maxHeight: number;
+} & BaseConfig;
+
 type SwitchConfig = {
 	type: 'switch';
 	disabled?: boolean;
@@ -49,7 +59,8 @@ type FormItem =
 	| InputConfig
 	| SelectConfig
 	| DatePickerConfig
-	| SwitchConfig;
+	| SwitchConfig
+	| TreeSelectConfig;
 
 //form的配置
 type FormConfig = {

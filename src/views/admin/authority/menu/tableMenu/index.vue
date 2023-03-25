@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import type { TableColumnsType } from 'ant-design-vue';
-import { MenuItem } from 'global';
+import { MenuTree } from '../type';
 
 defineProps<{
-	data: MenuItem[];
+	data: MenuTree[];
+}>();
+const emit = defineEmits<{
+	(e: 'edit', payload: any): void;
+	(e: 'delete', id: number): void;
 }>();
 const columns: TableColumnsType = [
 	{
@@ -14,8 +18,8 @@ const columns: TableColumnsType = [
 	},
 	{
 		title: 'Key',
-		dataIndex: 'key',
-		key: 'key',
+		dataIndex: 'keyd',
+		key: 'keyd',
 		align: 'center',
 	},
 	{
@@ -25,9 +29,9 @@ const columns: TableColumnsType = [
 		align: 'center',
 	},
 	{
-		title: 'Order',
-		dataIndex: 'order',
-		key: 'order',
+		title: 'Sort',
+		dataIndex: 'sort',
+		key: 'sort',
 		align: 'center',
 	},
 	{
@@ -43,8 +47,11 @@ const columns: TableColumnsType = [
 		align: 'center',
 	},
 ];
-const onDeleteConfirmOk = () => {
-	console.log('删除');
+const onDeleteConfirmOk = (id: number) => {
+	emit('delete', id);
+};
+const onEdit = (payload: any) => {
+	emit('edit', payload);
 };
 </script>
 
@@ -61,8 +68,14 @@ const onDeleteConfirmOk = () => {
 				<svg-icon :name="record.icon" :color="'black'"></svg-icon>
 			</template>
 			<template v-if="column.key === 'action'">
-				<a-button type="primary" size="small">编辑</a-button>
-				<confirm @confirm="onDeleteConfirmOk"> </confirm>
+				<a-button
+					type="primary"
+					size="small"
+					@click="onEdit(record)"
+					>编辑</a-button
+				>
+				<confirm @confirm="onDeleteConfirmOk(record.id)">
+				</confirm>
 			</template>
 		</template>
 	</a-table>
