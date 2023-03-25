@@ -1,7 +1,7 @@
 import { findAllClassList } from '@/views/admin/base/class/request';
 import { ClassItem } from '@/views/admin/base/class/type';
-import { findAllDeparment } from '@/views/admin/base/deparment/request';
-import { DeparmentItem } from '@/views/admin/base/deparment/type';
+import { findAllDeparment } from '@/views/admin/base/department/request';
+import { DeparmentItem } from '@/views/admin/base/department/type';
 import { Form } from 'ant-design-vue';
 import { Rule } from 'ant-design-vue/es/form';
 import { onMounted, reactive, ref } from 'vue';

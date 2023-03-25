@@ -1,48 +1,56 @@
 <script setup lang="ts">
 import DescHead from '@/components/commmon/descHead/index.vue';
-import ModelForm from '@/components/commmon/modelForm/index.vue';
 import Page from '@/components/commmon/page/index.vue';
-import { Colums } from './config';
-import useTeacher from './useTeacher';
+import useUser from './useUser';
 const {
 	loading,
-	teacherList,
-	config,
-	onEdit,
-	onSubmit,
+	userForm,
+	userList,
+	TableColums,
+	formatRole,
+	ModelConfig,
 	modelRef,
+	onEdit,
+	onOpenModel,
 	onRemove,
-	onAdd,
-	teacherForm,
-} = useTeacher();
+	onSubmit,
+} = useUser();
 </script>
-
 <template>
 	<Page :show-head="true" v-loading="loading">
 		<template #head>
-			<DescHead title="教师管理">
-				<template #body>用于教师的增删改查模块</template>
+			<DescHead title="用户管理">
+				<template #body>管理用户信息增删改查的模块</template>
 			</DescHead>
 		</template>
 		<template #main>
 			<a-card>
 				<ModelForm
 					ref="modelRef"
-					v-model:state="teacherForm"
-					:config="config"
+					v-model:state="userForm"
+					:config="ModelConfig"
 					@submit="onSubmit"
 				/>
 				<template #extra>
-					<a-button type="primary" @click="onAdd"
+					<a-button type="primary" @click="onOpenModel"
 						>新增</a-button
 					>
 				</template>
 				<a-table
 					style="height: 100%"
-					:columns="Colums"
-					:data-source="teacherList"
+					:columns="TableColums"
+					:data-source="userList"
 				>
 					<template #bodyCell="{ column, record }">
+						<template v-if="column.key === 'isEnabled'">
+							<a-switch
+								:disabled="true"
+								v-model:checked="record.roleId"
+							/>
+						</template>
+						<template v-if="column.key === 'roleId'">
+							{{ formatRole(record.roleId) }}
+						</template>
 						<template v-if="column.key == 'action'">
 							<a-button
 								type="primary"

@@ -1,3 +1,4 @@
+import type { Rule } from 'ant-design-vue/es/form';
 import { RouteRecordRaw } from 'vue-router';
 
 //把属性中指定部分变为可选
@@ -10,6 +11,7 @@ declare type ToParitalDes<T, U extends keyof T> = Pick<
 declare type FormState = {
 	[index: string]: any;
 };
+
 declare type MenuItem = {
 	path: string; //路由跳转地址
 	isLink: boolean; //路由是否是一个链接
@@ -25,3 +27,9 @@ declare type MenuItem = {
 	id: string; //当前菜单的id
 };
 declare type RouterRow = RouteRecordRaw;
+declare type TableColums = TableColumnsType;
+
+declare type ValidatorRules = (
+	rule: Rule,
+	value: string
+) => Promise<void> | void;

@@ -11,7 +11,6 @@ import {
 	deleteClass,
 	editClass,
 	findAllClassList,
-	findClassById,
 } from './request';
 import { ClassForm, ClassItem } from './type';
 const createFormConfig = (teacherList: Teacher[]): FormItem[] => {
@@ -103,10 +102,9 @@ const useClass = () => {
 		modelRef.value?.openModel(isEdit.value);
 	};
 
-	const onEdit = async (id: number) => {
+	const onEdit = async (payload: ClassItem) => {
 		isEdit.value = true;
-		const res = await findClassById(id);
-		modelRef.value?.openModel(isEdit.value, res);
+		modelRef.value?.openModel(isEdit.value, payload);
 	};
 
 	const removeClass = async (id: number) => {

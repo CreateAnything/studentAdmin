@@ -48,7 +48,7 @@ const {
 							<a-button
 								type="primary"
 								size="small"
-								@click="() => onEdit(record.id)"
+								@click="() => onEdit(record)"
 								>编辑</a-button
 							>
 							<confirm

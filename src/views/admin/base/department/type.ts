@@ -8,3 +8,7 @@ export interface DeparmentItem {
 	id: number;
 	name: string;
 }
+
+export interface DpeartmentForm {
+	name: string;
+}

@@ -26,12 +26,13 @@ const visible = ref<boolean>(false);
 const isEdit = ref<boolean>(false);
 const modelFormRef = ref<FormInstance>();
 const stateForm = ref<FormState>({ ...state.value });
+const resetForm = ref<FormState>({ ...state.value });
 const formatTitle = computed(() => {
 	return isEdit.value ? '编辑' : '新增';
 });
 
 const onClose = () => {
-	modelFormRef.value?.resetFields();
+	stateForm.value = { ...resetForm.value };
 	visible.value = false;
 };
 
@@ -109,6 +110,18 @@ defineExpose<ModelExpose>({
 							class="full-width"
 						>
 						</a-select>
+					</a-form-item>
+					<a-form-item
+						v-if="item.type === 'switch'"
+						:label="item.label"
+						:name="item.key"
+						:rules="item.rules"
+					>
+						<a-switch
+							:checked-value="item.checkedValue"
+							:un-checked-value="item.unCheckedValue"
+							v-model:checked="stateForm[item.key]"
+						/>
 					</a-form-item>
 					<a-form-item
 						v-if="item.type === 'datepicker'"

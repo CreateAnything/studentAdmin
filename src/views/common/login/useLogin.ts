@@ -10,16 +10,15 @@ import { useRouter } from 'vue-router';
 
 const user = useUserStore();
 const useLogin = () => {
+	const router = useRouter();
 	const formState = reactive<Form>({
 		username: 'admin',
 		password: '1234567',
 		remember: true,
 	});
-	const router = useRouter();
 	const onFinish = (): void => {
 		user.LoginRequest;
 		const path = user.getHomePath;
-
 		router.push(path);
 	};
 	return { formState, onFinish };

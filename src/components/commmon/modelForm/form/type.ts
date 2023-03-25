@@ -37,7 +37,19 @@ type DatePickerConfig = {
 	valueFormat?: string;
 } & BaseConfig;
 
-type FormItem = InputConfig | SelectConfig | DatePickerConfig;
+type SwitchConfig = {
+	type: 'switch';
+	disabled?: boolean;
+	size?: 'small' | 'default';
+	checkedValue?: string | number | boolean;
+	unCheckedValue?: string | number | boolean;
+} & BaseConfig;
+
+type FormItem =
+	| InputConfig
+	| SelectConfig
+	| DatePickerConfig
+	| SwitchConfig;
 
 //form的配置
 type FormConfig = {

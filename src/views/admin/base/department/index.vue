@@ -1,46 +1,44 @@
 <script setup lang="ts">
 import DescHead from '@/components/commmon/descHead/index.vue';
-import ModelForm from '@/components/commmon/modelForm/index.vue';
 import Page from '@/components/commmon/page/index.vue';
-import { Colums } from './config';
-import useTeacher from './useTeacher';
+import { Colums, createModelConfig } from './config';
+import useDepartment from './useDeparment';
+const config = createModelConfig();
 const {
 	loading,
-	teacherList,
-	config,
-	onEdit,
-	onSubmit,
+	departmentList,
+	departmentForm,
 	modelRef,
+	onEdit,
+	onOpenMode,
 	onRemove,
-	onAdd,
-	teacherForm,
-} = useTeacher();
+	onSubmit,
+} = useDepartment();
 </script>
-
 <template>
 	<Page :show-head="true" v-loading="loading">
 		<template #head>
-			<DescHead title="教师管理">
-				<template #body>用于教师的增删改查模块</template>
+			<DescHead title="院系管理">
+				<template #body> 院系增删改查的模块 </template>
 			</DescHead>
 		</template>
 		<template #main>
 			<a-card>
 				<ModelForm
 					ref="modelRef"
-					v-model:state="teacherForm"
+					v-model:state="departmentForm"
 					:config="config"
 					@submit="onSubmit"
 				/>
 				<template #extra>
-					<a-button type="primary" @click="onAdd"
+					<a-button type="primary" @click="onOpenMode"
 						>新增</a-button
 					>
 				</template>
 				<a-table
 					style="height: 100%"
 					:columns="Colums"
-					:data-source="teacherList"
+					:data-source="departmentList"
 				>
 					<template #bodyCell="{ column, record }">
 						<template v-if="column.key == 'action'">

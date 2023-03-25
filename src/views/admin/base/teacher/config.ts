@@ -1,6 +1,8 @@
 import { FormItem } from '@/components/commmon/modelForm/form/type';
 import { TableColumnsType } from 'ant-design-vue';
 import { ClassItem } from '../class/type';
+import { CourseItem } from '../course/type';
+import { DeparmentItem } from '../department/type';
 
 export const Colums: TableColumnsType = [
 	{
@@ -22,8 +24,8 @@ export const Colums: TableColumnsType = [
 		dataIndex: 'dname',
 	},
 	{
-		title: '所教院系',
-		dataIndex: 'fname',
+		title: '生日',
+		dataIndex: 'birthday',
 	},
 	{
 		title: '性别',
@@ -39,7 +41,11 @@ export const Colums: TableColumnsType = [
 	align: 'center',
 }));
 
-export const createModelConfig = (classList: ClassItem[]): FormItem[] => {
+export const createModelConfig = (
+	classList: ClassItem[],
+	departmentList: DeparmentItem[],
+	courseList: CourseItem[]
+): FormItem[] => {
 	const Config: FormItem[] = [
 		{
 			label: '姓名',
@@ -47,6 +53,13 @@ export const createModelConfig = (classList: ClassItem[]): FormItem[] => {
 			type: 'input',
 			inputType: 'text',
 			placeholder: '请输入教师姓名',
+			rules: [
+				{
+					required: true,
+					trigger: 'change',
+					message: '请输入教师姓名',
+				},
+			],
 			span: 6,
 		},
 		{
@@ -54,7 +67,16 @@ export const createModelConfig = (classList: ClassItem[]): FormItem[] => {
 			key: 'birthday',
 			type: 'datepicker',
 			picker: 'date',
+			format: 'YYYY-MM-DD',
+			valueFormat: 'YYYY-MM-DD',
 			placeholder: '请选择教师生日',
+			rules: [
+				{
+					required: true,
+					trigger: 'change',
+					message: '请选择教师生日',
+				},
+			],
 			span: 6,
 		},
 		{
@@ -75,17 +97,58 @@ export const createModelConfig = (classList: ClassItem[]): FormItem[] => {
 		},
 		{
 			label: '班级',
-			key: 'departmentId',
+			key: 'clazzId',
 			span: 6,
 			type: 'select',
 			placeholder: '请选择班级',
+			rules: [
+				{
+					required: true,
+					trigger: 'change',
+					message: '请选择教师管理的班级',
+				},
+			],
 			options: classList.map((item) => ({
 				label: item.clazzName,
 				value: item.id,
 			})),
 		},
+		{
+			label: '课程',
+			key: 'courseId',
+			span: 6,
+			type: 'select',
+			placeholder: '请选择课程',
+			rules: [
+				{
+					required: true,
+					trigger: 'change',
+					message: '请选择课程',
+				},
+			],
+			options: courseList.map((item) => ({
+				label: item.name,
+				value: item.id,
+			})),
+		},
+		{
+			label: '院系',
+			key: 'departmentId',
+			span: 6,
+			type: 'select',
+			placeholder: '请选择院系',
+			rules: [
+				{
+					required: true,
+					trigger: 'change',
+					message: '请选择教师所在的院系',
+				},
+			],
+			options: departmentList.map((item) => ({
+				label: item.name,
+				value: item.id,
+			})),
+		},
 	];
-	console.log(classList);
-
 	return Config;
 };

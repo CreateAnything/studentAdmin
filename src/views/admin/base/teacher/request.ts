@@ -5,12 +5,13 @@ export const findAllTeacher = async (): Promise<Teacher[]> => {
 	const result = await MyRequest.get<Teacher[]>({
 		url: Api.FIND_TEACHER,
 	});
+	console.log(result.page);
 	return result.page;
 };
 
 //删除老师
-export const removeTeacher = async (id: number): Promise<void> => {
-	await MyRequest.delete({ url: Api.DLETE_TEACHER, params: id });
+export const removeTeacher = async (ids: number[]): Promise<void> => {
+	await MyRequest.delete({ url: Api.DLETE_TEACHER, data: ids });
 };
 
 //增加老师
@@ -21,4 +22,12 @@ export const addTeacher = async (body: TeacherForm): Promise<void> => {
 //编辑老师
 export const editTeacher = async (body: TeacherForm): Promise<void> => {
 	await MyRequest.put({ url: Api.EDIT_TEACHER, data: body });
+};
+
+//获取单个老师
+export const findTeacherById = async (id: number): Promise<Teacher> => {
+	const result = await MyRequest.get<Teacher>({
+		url: Api.FIND_TEACHERBYID + '/' + id,
+	});
+	return result.page;
 };

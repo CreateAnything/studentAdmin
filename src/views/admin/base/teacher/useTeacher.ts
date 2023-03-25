@@ -1,36 +1,75 @@
-import { ModelExpose } from '@/components/commmon/modelForm/form/type';
-import { onMounted, reactive, ref } from 'vue';
+import {
+	FormItem,
+	ModelExpose,
+} from '@/components/commmon/modelForm/form/type';
+import { onMounted, ref } from 'vue';
 import { findAllClassList } from '../class/request';
 import { ClassItem } from '../class/type';
-import { findAllTeacher } from './request';
+import { findAllCourse } from '../course/request';
+import { CourseItem } from '../course/type';
+import { findAllDeparment } from '../department/request';
+import { DeparmentItem } from '../department/type';
+import { createModelConfig } from './config';
+import {
+	addTeacher,
+	editTeacher,
+	findAllTeacher,
+	removeTeacher,
+} from './request';
 import { Teacher, TeacherForm } from './type';
 const useTeacger = () => {
+	const config = ref<FormItem[]>([]);
 	const loading = ref<boolean>(false);
 	const teacherList = ref<Teacher[]>([]);
+	const departmentList = ref<DeparmentItem[]>([]);
+	const isEdit = ref<boolean>(false);
 	const modelRef = ref<ModelExpose>();
 	const classList = ref<ClassItem[]>([]);
-	const teacherForm = reactive<TeacherForm>({
-		clazz_id: undefined,
-		department_id: undefined,
-		faculty_id: undefined,
+	const courseList = ref<CourseItem[]>([]);
+	const teacherForm = ref<TeacherForm>({
+		clazzId: undefined,
+		departmentId: undefined,
+		courseId: undefined,
 		name: '',
 		birthday: '',
 		sex: '男',
 	});
 
 	const onAdd = () => {
+		isEdit.value = false;
 		modelRef.value?.openModel(false);
 	};
-	const onEdit = (id: number) => {
-		console.log(id);
+
+	const onSubmit = async () => {
+		if (!isEdit.value) {
+			await addTeacher(teacherForm.value);
+		} else {
+			await editTeacher(teacherForm.value);
+		}
+		init();
 	};
-	const onRemove = (id: number) => {
-		console.log(id);
+
+	const onEdit = async (payload: Teacher) => {
+		isEdit.value = true;
+		modelRef.value?.openModel(isEdit.value, payload);
 	};
+
+	const onRemove = async (id: number) => {
+		await removeTeacher([id]);
+		init();
+	};
+
 	const init = async () => {
 		loading.value = true;
 		teacherList.value = await findAllTeacher();
+		courseList.value = await findAllCourse();
 		classList.value = await findAllClassList();
+		departmentList.value = await findAllDeparment();
+		config.value = createModelConfig(
+			classList.value,
+			departmentList.value,
+			courseList.value
+		);
 		loading.value = false;
 	};
 	onMounted(() => {
@@ -43,6 +82,8 @@ const useTeacger = () => {
 		teacherForm,
 		modelRef,
 		classList,
+		config,
+		onSubmit,
 		onEdit,
 		onRemove,
 		onAdd,

@@ -3,6 +3,7 @@ export enum Api {
 	EDIT_TEACHER = '/studentmanager/teacher/update',
 	DLETE_TEACHER = '/studentmanager/teacher/delete',
 	FIND_TEACHER = '/studentmanager/teacher/list',
+	FIND_TEACHERBYID = '/studentmanager/teacher/info',
 }
 
 export interface Teacher {
@@ -19,7 +20,7 @@ export interface Teacher {
 }
 
 export type TeacherForm = {
-	department_id: number | undefined;
-	faculty_id: number | undefined;
-	clazz_id: number | undefined;
+	departmentId: number | undefined;
+	clazzId: number | undefined;
+	courseId: number | undefined;
 } & Pick<Teacher, 'birthday' | 'sex' | 'name'>;
