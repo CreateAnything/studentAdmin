@@ -1,13 +1,14 @@
+import { MenuTree } from '@/views/admin/authority/menu/type';
 import { MenuItem } from 'global';
 
 type MenuExcluter = (key: string) => string[];
 type createMenuFn = (menus: MenuItem[]) => MenuExcluter;
 
 type useTreeReturnType = (
-	tree?: MenuItem[],
+	tree?: MenuTree[],
 	container?: Record<string, string[]>
 ) => Record<string, string[]>;
-type UseTreeFnType = (root: MenuItem[]) => useTreeReturnType;
+type UseTreeFnType = (root: MenuTree[]) => useTreeReturnType;
 
 export interface TreeConfig {
 	root?: string | number;

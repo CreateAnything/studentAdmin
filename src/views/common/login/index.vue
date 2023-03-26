@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { LockOutlined, UserOutlined } from '@ant-design/icons-vue';
+import { useRouter } from 'vue-router';
 import useLogin from './useLogin';
-const { formState, onFinish } = useLogin();
+const router = useRouter();
+const { formState, onFinish } = useLogin(router);
 </script>
 
 <template>
@@ -35,12 +37,6 @@ const { formState, onFinish } = useLogin();
 								<lock-outlined />
 							</template>
 						</a-input-password>
-					</a-form-item>
-
-					<a-form-item name="remember">
-						<a-checkbox v-model:checked="formState.remember"
-							>自动登录</a-checkbox
-						>
 					</a-form-item>
 
 					<a-form-item>

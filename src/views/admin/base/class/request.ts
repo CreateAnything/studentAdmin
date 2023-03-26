@@ -6,7 +6,7 @@ export const findAllClassList = async (): Promise<ClassItem[]> => {
 	const result = await MyRequest.get<ClassItem[]>({
 		url: Api.FIND_CALSS,
 	});
-	return result.page;
+	return result;
 };
 
 //新增班级
@@ -24,7 +24,7 @@ export const findClassById = async (id: number): Promise<ClassItem> => {
 	const result = await MyRequest.get<ClassItem>({
 		url: Api.FIND_CLASSBYID + '/' + id,
 	});
-	return result.page;
+	return result;
 };
 
 //编辑班级信息

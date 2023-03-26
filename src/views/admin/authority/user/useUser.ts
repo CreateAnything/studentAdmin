@@ -2,12 +2,14 @@ import {
 	FormItem,
 	ModelExpose,
 } from '@/components/commmon/modelForm/form/type';
+import { useUserStore } from '@/store/user';
 import { TableColumnsType } from 'ant-design-vue';
 import { ValidatorRules } from 'global';
 import { computed, onMounted, ref } from 'vue';
 import { createColums, createModelConfig } from './config';
 import { addUser, editUser, findAllUser, removeUser } from './request';
 import { Roels, User, UserForm } from './type';
+const user = useUserStore();
 const useUser = () => {
 	const loading = ref<boolean>(false);
 	const isEdit = ref<boolean>(false);
@@ -48,6 +50,7 @@ const useUser = () => {
 
 	const onSubmit = async () => {
 		if (!isEdit.value) {
+			userForm.value.createUser = user.userInfo.username;
 			await addUser(userForm.value);
 		} else {
 			await editUser(userForm.value);

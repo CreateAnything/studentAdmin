@@ -5,27 +5,23 @@ import type {
 	InternalAxiosRequestConfig,
 } from 'axios';
 
-enum RequestEnums {
+export enum BadServerStatus {
 	TIMEOUT = 10000, // 请求超时 request timeout
 	FAIL = 500, // 服务器异常 server error
 	LOGINTIMEOUT = 401, // 登录超时 login timeout
 	SUCCESS = 200, // 请求成功 request successfully
 }
-
-// interface GetPage<T> {
-// 	currPage: number;
-// 	list: T[];
-// 	pageSize: number;
-// 	totalCount: number;
-// 	totalPage: number;
-// }
-interface GetResponse<T> {
-	code: number;
-	msg: string;
-	page: T;
-	student: T;
+export enum SuccessStatus {
+	PARAMS_ERR = 202, //参数错误
+	NOTFOUND = 203, //未找到
+	SUCCESS = 200, //成功请求
 }
 
+interface GetResponse<T = any> {
+	code: SuccessStatus;
+	msg: string;
+	page: T;
+}
 interface RequestInterceptors {
 	//请求拦截器
 	requestInterceptors?: (
@@ -35,7 +31,9 @@ interface RequestInterceptors {
 		err: AxiosError
 	) => AxiosError | Promise<AxiosError>;
 	//响应拦截器
-	responseInterceptors?: (config: AxiosResponse) => AxiosResponse;
+	responseInterceptors?: (
+		config: AxiosResponse<GetResponse>
+	) => AxiosResponse<GetResponse>;
 	responseInterceptorCatch?: (
 		error: AxiosError
 	) => AxiosError | Promise<AxiosError>;
@@ -48,9 +46,4 @@ interface RequestConfig extends AxiosRequestConfig {
 	retryDelay?: number;
 	_retryCount?: number;
 }
-export type {
-	GetResponse,
-	RequestConfig,
-	RequestEnums,
-	RequestInterceptors,
-};
+export type { GetResponse, RequestConfig, RequestInterceptors };

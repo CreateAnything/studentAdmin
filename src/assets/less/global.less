@@ -1,17 +1,17 @@
-@text-size-small: 12px;
+@text-size-small: 10px;
 @text-size-media: 14px;
 @text-size-large: 16px;
 
 @p-media: 16px;
 //主题背景颜色
-@theme-color: #2b8ceb;
+@theme-color: #001529;
 
 //global-class
 body,
 html {
 	width: 100%;
 	height: 100vh;
-	font-family: 'Times New Roman', Times, serif;
+	font-family: 'Microsoft YaHei';
 }
 body::-webkit-scrollbar {
 	width: 0 !important;
@@ -39,10 +39,9 @@ body::-webkit-scrollbar-thumb {
 	justify-content: center;
 	align-items: center;
 }
-
-.icon-size {
-	font-size: @text-size-large;
-	vertical-align: middle;
+.icon {
+	font-size: @text-size-media;
+	color: @theme-color;
+	font-weight: 700;
 }
-
 //global-mixin

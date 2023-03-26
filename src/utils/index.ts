@@ -24,16 +24,16 @@ export const GetPath = (roleName: string, key: string): string => {
 
 //将菜单变成路由routes
 export const GetRoutesByMenu = (
-	menu: MenuItem[],
+	menu: MenuTree[],
 	modules: Record<string, Component>,
 	type: string
 ): RouteRecordRaw[] => {
-	return menu.map((menuItem: MenuItem) => {
-		const { children, path, name, icon } = menuItem;
-		const modulePath = GetPath(type, menuItem.key);
+	return menu.map((menuItem: MenuTree) => {
+		const { children, url, name, icon } = menuItem;
+		const modulePath = GetPath(type, menuItem.keyd);
 		const hasChild = children && children.length > 0;
 		const routes: RouteRecordRaw = {
-			path,
+			path: url,
 			name,
 			meta: {
 				title: menuItem.name,
@@ -99,12 +99,12 @@ export const mapTreeMenu = (
 
 //获取面包屑
 export const createMenuKeyMap: UseTreeFnType = (root) => {
-	return function (tree: MenuItem[] = root, Map = {}) {
+	return function (tree: MenuTree[] = root, Map = {}) {
 		return tree.reduce((pre, next) => {
-			if (!Map[next.path]) {
-				Map[next.path] = [];
+			if (!Map[next.url]) {
+				Map[next.url] = [];
 			}
-			pre[next.path] = getTreeNameArrayById(root, next.id);
+			pre[next.url] = getTreeNameArrayById(root, next.id);
 			if (next.children && next?.children.length > 0) {
 				const deep = createMenuKeyMap(root);
 				deep(next.children, Map);
@@ -115,13 +115,13 @@ export const createMenuKeyMap: UseTreeFnType = (root) => {
 };
 
 //根据id获取树状数据子内名称
-function getTreeNameArrayById(tree: MenuItem[], Id: string): string[] {
+function getTreeNameArrayById(tree: MenuTree[], Id: number): string[] {
 	const breadcrumb: string[] = [];
-	const deepPreNode = (arr: MenuItem[], id: string) => {
-		arr.map((item: MenuItem) => {
-			if (item.id === id) {
+	const deepPreNode = (arr: MenuTree[], id: number) => {
+		arr.map((item: MenuTree) => {
+			if (item.id == id) {
 				breadcrumb.unshift(item.name);
-				deepPreNode(tree, item.parentId);
+				deepPreNode(tree, item.parentId!);
 			} else if (item.children && item.children.length > 0) {
 				deepPreNode(item.children, id);
 			}

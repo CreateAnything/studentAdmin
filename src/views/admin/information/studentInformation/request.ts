@@ -3,7 +3,7 @@ import { Api, Student, StudentForm } from './type';
 //获取学生列表
 export const findAllStudentList = async (): Promise<Student[]> => {
 	const result = await MyRequest.get<Student[]>({ url: Api.GET_STU });
-	return result.page;
+	return result;
 };
 
 //添加学生
@@ -25,5 +25,5 @@ export const findStudentById = async (id: number): Promise<Student> => {
 	const result = await MyRequest.get<Student>({
 		url: Api.GET_STUBYID + '/' + id,
 	});
-	return result.student;
+	return result;
 };

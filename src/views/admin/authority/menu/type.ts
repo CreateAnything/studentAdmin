@@ -16,7 +16,7 @@ export interface MenuForm {
 	isMenu?: number;
 	keyd: string;
 	name: string;
-	parentId: string | undefined;
+	parentId: number | undefined;
 	roleId: Roels;
 	sort: number;
 	url: string;
@@ -27,7 +27,7 @@ export interface TabsConfigType {
 }
 
 export interface MenuItem extends MenuForm {
-	id: string;
+	id: number;
 }
 
 export interface MenuTree extends MenuItem {

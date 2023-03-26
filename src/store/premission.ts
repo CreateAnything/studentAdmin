@@ -1,6 +1,7 @@
 import publicRoute from '@/router/default';
 import { findMoudlesByRole } from '@/router/privateRoute';
 import { GetRoutesByMenu, createMenuKeyMap } from '@/utils';
+import { Key } from 'ant-design-vue/lib/_util/type';
 import { defineStore, storeToRefs } from 'pinia';
 import { RouteRecordRaw } from 'vue-router';
 import { useUserStore } from './user';
@@ -8,8 +9,8 @@ type State = {
 	publicRoutes: RouteRecordRaw[];
 	privateRoutes: RouteRecordRaw[];
 	mapRouteKeys: Record<string, string[]>;
-	pathLevel: string[];
-	currentPath: string;
+	pathLevel: Key[];
+	currentPath: string | number;
 };
 export const usePremissionStore = defineStore('premission', {
 	state: (): State => ({
@@ -43,27 +44,29 @@ export const usePremissionStore = defineStore('premission', {
 		getFatherPath: (state) => {
 			return state.pathLevel[0];
 		},
-		getCurrentPath: ({ pathLevel, privateRoutes }) => {
-			return pathLevel.length > 0
-				? pathLevel.at(-1)
-				: privateRoutes[0].path;
+		getCurrentPath: ({ pathLevel }) => {
+			return pathLevel.at(-1);
 		},
 	},
 	actions: {
 		//设置页面路径映射表
 		setRouterKeysMap() {
-			const { userInfo } = storeToRefs(useUserStore());
-			const MapsSetup = createMenuKeyMap(userInfo.value.menuList);
+			const { menuTree } = storeToRefs(useUserStore());
+			const MapsSetup = createMenuKeyMap(menuTree.value);
 			this.mapRouteKeys = MapsSetup();
+		},
+		//设置路由层级
+		setPathLevel(pathLevel: Key[]) {
+			this.pathLevel = pathLevel;
 		},
 		//将后端菜单数据处理成路由数据
 		generateRouter() {
-			const { userInfo } = storeToRefs(useUserStore());
+			const { userInfo, menuTree } = storeToRefs(useUserStore());
 			const { modules, type } = findMoudlesByRole(
-				userInfo.value.role
+				userInfo.value.roleId
 			); //获取角色模块下的文件
 			this.privateRoutes = GetRoutesByMenu(
-				userInfo.value.menuList,
+				menuTree.value,
 				modules,
 				type
 			);

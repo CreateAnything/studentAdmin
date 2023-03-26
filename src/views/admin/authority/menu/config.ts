@@ -1,7 +1,12 @@
 import { FormItem } from '@/components/commmon/modelForm/form/type';
-import { MenuTree } from './type';
+import { ModeOptions } from 'global';
+import { Roels } from '../user/type';
 
-export const createModelConfig = (treeDta: MenuTree[]): FormItem[] => {
+export const urlPattern = /^\/(admin|student|teacher)(\/.*)?$/;
+export const createModelConfig = <T = string>({
+	data,
+	enventStack,
+}: ModeOptions<T>): FormItem[] => {
 	return [
 		{
 			label: '菜单名称',
@@ -10,6 +15,18 @@ export const createModelConfig = (treeDta: MenuTree[]): FormItem[] => {
 			span: 8,
 			key: 'name',
 			placeholder: '请输入菜单名称',
+			rules: [
+				{
+					required: true,
+					trigger: 'change',
+					message: '请输入菜单名称',
+				},
+				{
+					pattern: /^[\u4e00-\u9fa5]{1,10}$/,
+					trigger: 'change',
+					message: '菜单名称必须为小于10位的中文',
+				},
+			],
 		},
 		{
 			label: '跳转路径',
@@ -17,15 +34,30 @@ export const createModelConfig = (treeDta: MenuTree[]): FormItem[] => {
 			inputType: 'text',
 			span: 8,
 			key: 'url',
+			changeFn: enventStack['url'],
 			placeholder: '请输入跳转路径',
+			rules: [
+				{
+					required: true,
+					trigger: 'change',
+					message: '请输入菜单路径',
+				},
+				{
+					pattern: urlPattern,
+					trigger: 'change',
+					message:
+						'必须为(/admin | /student | /teacher)开头的path',
+				},
+			],
 		},
 		{
 			label: '菜单key',
 			type: 'input',
 			inputType: 'text',
+			disabled: true,
 			span: 8,
 			key: 'keyd',
-			placeholder: '请输入菜单key',
+			placeholder: '_xxx_xx',
 		},
 		{
 			label: '菜单图标',
@@ -56,7 +88,7 @@ export const createModelConfig = (treeDta: MenuTree[]): FormItem[] => {
 				label: 'name',
 				value: 'id',
 			},
-			treeData: treeDta,
+			treeData: data && data['menuTree'],
 		},
 		{
 			label: '是否链接',
@@ -91,6 +123,23 @@ export const createModelConfig = (treeDta: MenuTree[]): FormItem[] => {
 			key: 'description',
 			placeholder: '请输入菜单描述',
 			rows: 4,
+		},
+	];
+};
+
+export const createTabConfig = (): { label: string; value: Roels }[] => {
+	return [
+		{
+			label: '管理端',
+			value: Roels.Admin,
+		},
+		{
+			label: '教师端',
+			value: Roels.Teacher,
+		},
+		{
+			label: '学生端',
+			value: Roels.Student,
 		},
 	];
 };

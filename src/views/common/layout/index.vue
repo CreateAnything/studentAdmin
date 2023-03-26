@@ -5,13 +5,13 @@ import { storeToRefs } from 'pinia';
 import Content from './child/content/index.vue';
 import Header from './child/header/index.vue';
 import Menu from './child/menu/index.vue';
-const { userInfo } = storeToRefs(useUserStore());
+const { menuTree } = storeToRefs(useUserStore());
 const global = useGlobalStore();
 </script>
 <template>
 	<a-layout>
 		<a-layout-sider :collapsed="global.collapsed">
-			<Menu :menu-list="userInfo.menuList" />
+			<Menu :menu-list="menuTree" />
 		</a-layout-sider>
 		<a-layout>
 			<a-layout-header class="header">

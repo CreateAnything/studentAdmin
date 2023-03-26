@@ -18,7 +18,7 @@ export const findAllMenuList = async (): Promise<MenuItem[]> => {
 	const result = await MyRequest.get<MenuItem[]>({
 		url: Api.FIND_MENU,
 	});
-	return result.page;
+	return result;
 };
 //根据角色获取菜单
 export const findMenuListByRoleId = async (
@@ -27,5 +27,5 @@ export const findMenuListByRoleId = async (
 	const result = await MyRequest.get<MenuItem[]>({
 		url: Api.FIND_MENUBYROLE + '/' + role,
 	});
-	return result.page;
+	return result;
 };

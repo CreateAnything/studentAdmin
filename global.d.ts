@@ -1,12 +1,13 @@
 import type { Rule } from 'ant-design-vue/es/form';
 import { RouteRecordRaw } from 'vue-router';
-
-//把属性中指定部分变为可选
-declare type ToParitalDes<T, U extends keyof T> = Pick<
-	T,
-	Exclude<keyof T, U>
-> &
-	Pick<T, U>;
+type ValidatorsType<T, K extends keyof T> = Record<
+	string,
+	ValidatorRules
+>;
+type EnentStack<T, K extends keyof T> = Record<
+	K,
+	(...args: any[]) => void
+>;
 
 declare type FormState = {
 	[index: string]: any;
@@ -28,8 +29,13 @@ declare type MenuItem = {
 };
 declare type RouterRow = RouteRecordRaw;
 declare type TableColums = TableColumnsType;
-
 declare type ValidatorRules = (
 	rule: Rule,
 	value: string
 ) => Promise<void> | void;
+
+declare interface ModeOptions<T = string> {
+	data?: Record<string, any>;
+	enventStack?: EnentStack<T>;
+	validator?: ValidatorsType<T>;
+}

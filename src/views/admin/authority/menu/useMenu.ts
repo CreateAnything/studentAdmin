@@ -5,11 +5,11 @@ import {
 import { GetListToTree } from '@/utils';
 import { onMounted, ref } from 'vue';
 import { Roels } from '../user/type';
-import { createModelConfig } from './config';
+import { createModelConfig, urlPattern } from './config';
 import {
 	addMenu,
 	editMenu,
-	findAllMenuList,
+	findMenuListByRoleId,
 	removeMenu,
 } from './request';
 import { MenuForm, MenuItem, MenuTree } from './type';
@@ -39,10 +39,14 @@ const useMenu = () => {
 		{
 			name: '菜单管理',
 			children: [],
-			id: '000000',
+			id: 0,
 			keyd: 'root',
 		},
 	]);
+	const onTabsChange = () => {
+		menuForm.value.roleId = activeKey.value;
+		init();
+	};
 	const onOpenModel = () => {
 		isEdit.value = false;
 		modelRef.value?.openModel(isEdit.value);
@@ -54,6 +58,7 @@ const useMenu = () => {
 	};
 
 	const onSubmit = async () => {
+		menuForm.value.roleId = activeKey.value;
 		if (!isEdit.value) {
 			await addMenu(menuForm.value);
 		} else {
@@ -67,14 +72,26 @@ const useMenu = () => {
 		modelRef.value?.openModel(isEdit.value, payload);
 	};
 
+	const onChangeUrl = () => {
+		const match = menuForm.value.url.match(urlPattern);
+		if (match && match[2]) {
+			const path = match[2].substring(1).replace(/\//g, '_');
+			menuForm.value.keyd = path;
+		}
+	};
+
 	const init = async () => {
 		loading.value = true;
-		menuList.value = await findAllMenuList();
+		menuList.value = await findMenuListByRoleId(activeKey.value);
 		const treeList = GetListToTree({ data: menuList.value });
 		menuTree.value[0].children = treeList;
-		modelConfig.value = createModelConfig(
-			menuTree.value as MenuTree[]
-		);
+
+		modelConfig.value = createModelConfig<MenuForm>({
+			data: { menuTree: menuTree.value },
+			enventStack: {
+				url: onChangeUrl,
+			},
+		});
 		nodeList.value = treeList;
 		loading.value = false;
 	};
@@ -93,6 +110,7 @@ const useMenu = () => {
 		visible,
 		modelConfig,
 		menuList,
+		onTabsChange,
 		onSubmit,
 		onEdit,
 		onOpenModel,

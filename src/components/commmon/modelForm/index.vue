@@ -8,6 +8,7 @@ interface Props {
 	config: FormItem[];
 	formConfig?: FormConfig;
 	state: FormState;
+	title?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
 	width: 1000,
@@ -21,13 +22,16 @@ const emit = defineEmits<{
 	(e: 'submit', payload: any): void;
 	(e: 'cancel'): void;
 }>();
-const { width, state, config, formConfig } = toRefs(props);
+const { width, state, config, formConfig, title } = toRefs(props);
 const visible = ref<boolean>(false);
 const isEdit = ref<boolean>(false);
 const modelFormRef = ref<FormInstance>();
 const stateForm = ref<FormState>({ ...state.value });
 const resetForm = ref<FormState>({ ...state.value });
 const formatTitle = computed(() => {
+	if (title?.value) {
+		return title.value;
+	}
 	return isEdit.value ? '编辑' : '新增';
 });
 
@@ -101,7 +105,10 @@ defineExpose<ModelExpose>({
 							v-else
 							:type="item.inputType"
 							:placeholder="item.placeholder"
+							:disabled="item.disabled"
 							v-model:value="stateForm[item.key]"
+							:addon-before="item?.addBefore"
+							@change="item.changeFn"
 						/>
 					</a-form-item>
 					<a-form-item

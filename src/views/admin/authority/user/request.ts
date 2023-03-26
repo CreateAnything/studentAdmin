@@ -19,5 +19,5 @@ export const editUser = async (body: UserForm): Promise<void> => {
 //查找用户列表
 export const findAllUser = async (): Promise<User[]> => {
 	const result = await MyRequest.get<User[]>({ url: Api.FIND_USER });
-	return result.page;
+	return result;
 };

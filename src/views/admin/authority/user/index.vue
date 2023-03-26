@@ -45,7 +45,9 @@ const {
 						<template v-if="column.key === 'isEnabled'">
 							<a-switch
 								:disabled="true"
-								v-model:checked="record.roleId"
+								:un-checked-value="0"
+								:checked-value="1"
+								v-model:checked="record.isEnabled"
 							/>
 						</template>
 						<template v-if="column.key === 'roleId'">

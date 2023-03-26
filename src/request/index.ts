@@ -1,6 +1,6 @@
 import { createMessage } from '@/utils';
 import Request from './request';
-import { RequestConfig } from './type';
+import { RequestConfig, SuccessStatus } from './type';
 const message = createMessage();
 export const MyRequest = new Request({
 	baseURL: `http://localhost:${import.meta.env.VITE_PORT}/api/`,
@@ -13,6 +13,9 @@ export const MyRequest = new Request({
 			return config;
 		},
 		responseInterceptors: (response) => {
+			if (response.data.code !== SuccessStatus.SUCCESS) {
+				message.warning(response.data.msg);
+			}
 			switch (response.config.method) {
 				case 'post':
 					message.success('新增成功');
@@ -24,7 +27,7 @@ export const MyRequest = new Request({
 					message.success('编辑成功');
 					break;
 			}
-			return response.data;
+			return response.data.page;
 		},
 		responseInterceptorCatch(err) {
 			console.log(err);
@@ -34,7 +37,7 @@ export const MyRequest = new Request({
 			//如果没用配置重连选项,直接返回错误
 			if (!config.retry || status !== 500) {
 				switch (status) {
-					case 404:
+					case 404 || 405:
 						message.error('未知的链接接口');
 						break;
 				}

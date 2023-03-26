@@ -1,22 +1,19 @@
-import { MenuItem } from '@/vite-env';
+import { MenuItem, MenuTree } from '@/views/admin/authority/menu/type';
+import { Roels } from '@/views/admin/authority/user/type';
 import { Component } from 'vue';
-
-export enum Role {
-	admin = 1,
-	teacher = 2,
-	student = 3,
+export enum Api {
+	LOGIN_IN = '/studentmanager/user/login',
 }
-
-interface UserType {
-	role: Role;
+interface UserPaylod {
 	token: string;
-	username: string;
-	avatar: string;
 	menuList: MenuItem[];
+	username: string;
+	roleId: Roels;
 }
 
 interface State {
-	userInfo: UserType;
+	userInfo: UserPaylod;
+	menuTree: MenuTree[];
 }
 
 interface RoutesModulesType {
@@ -24,4 +21,4 @@ interface RoutesModulesType {
 	modules: Record<string, Component>;
 }
 
-export type { RoutesModulesType, State };
+export type { RoutesModulesType, State, UserPaylod };

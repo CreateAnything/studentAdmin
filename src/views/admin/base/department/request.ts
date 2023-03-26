@@ -5,7 +5,7 @@ export const findAllDeparment = async (): Promise<DeparmentItem[]> => {
 	const result = MyRequest.get<DeparmentItem[]>({
 		url: Api.FIND_DEPARMENT,
 	});
-	return (await result).page;
+	return result;
 };
 
 //新增部门

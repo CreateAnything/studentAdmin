@@ -61,11 +61,16 @@ const onEdit = (payload: any) => {
 			<template v-if="column.key === 'enable'">
 				<a-switch
 					:disabled="true"
+					:checked-value="1"
+					:un-checked-value="0"
 					v-model:checked="record.enable"
 				/>
 			</template>
 			<template v-if="column.key === 'icon'">
-				<svg-icon :name="record.icon" :color="'black'"></svg-icon>
+				<svg-icon
+					:name="record.icon"
+					:color="'#000000'"
+				></svg-icon>
 			</template>
 			<template v-if="column.key === 'action'">
 				<a-button

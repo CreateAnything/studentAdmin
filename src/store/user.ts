@@ -1,46 +1,35 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { menuList } from '@/mock/index';
-import { usePremissionStore } from '@/store/premission';
+import { MenuTree } from '@/views/admin/authority/menu/type';
+import { Roels } from '@/views/admin/authority/user/type';
+import { UserInfo } from '@/views/common/login/type';
 import { defineStore } from 'pinia';
 import { State } from './type/user.type';
 export const useUserStore = defineStore('user', {
 	state: (): State => ({
 		userInfo: {
-			role: 1,
+			roleId: Roels.Admin,
 			token: '',
 			menuList: [],
-			avatar: '',
 			username: '',
 		},
+		menuTree: [],
 	}),
 	persist: {
 		enabled: true,
-		strategies: [{ storage: localStorage, paths: ['userInfo'] }],
+		strategies: [
+			{ storage: localStorage, paths: ['userInfo', 'menuTree'] },
+		],
 	},
 	getters: {
 		//判断是否有菜单
 		hasMenu: (state) => state.userInfo.menuList.length > 0,
-		//获取首页地址
-		getHomePath: (state) => {
-			const premission = usePremissionStore();
-			if (premission.pathLevel.length !== 0) {
-				return premission.getCurrentPath;
-			} else {
-				const path = state.userInfo.menuList[0].path;
-				premission.pathLevel.push(path);
-				return path;
-			}
+	},
+	actions: {
+		setUserInfo(payload: UserInfo) {
+			this.userInfo = payload;
 		},
-		//登录函数
-		LoginRequest() {
-			this.userInfo = {
-				role: 1,
-				token: 'admin',
-				menuList: menuList,
-				avatar: '',
-				username: 'admin',
-			};
+		setUserMenu(payload: MenuTree[]) {
+			this.menuTree = payload;
 		},
 	},
-	actions: {},
 });

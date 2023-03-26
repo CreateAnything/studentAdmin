@@ -22,7 +22,7 @@ const { menuTree, search, menuList } = toRefs(props);
 const selectedKeys = ref<string[]>([]);
 const searchValue = ref<string>('');
 const autoExpandParent = ref<boolean>(true);
-const expandedKeys = ref<Key[]>(['000000']);
+const expandedKeys = ref<Key[]>([0]);
 const fieldNames: TreeProps['fieldNames'] = {
 	children: 'children',
 	title: 'name',
@@ -39,10 +39,10 @@ const handleExpand: TreeProps['onExpand'] = (keys) => {
 	autoExpandParent.value = false;
 };
 //通过keywords找到父级的节点
-const findParentId = (key: string | undefined): string[] => {
-	const result = menuList.value.reduce((pre: string[], next) => {
+const findParentId = (key: string | undefined): number[] => {
+	const result = menuList.value.reduce((pre: number[], next) => {
 		if (key !== undefined && next.name.includes(key)) {
-			next.parentId && pre.push(next?.parentId);
+			next.parentId && pre.push(+next?.parentId);
 		}
 		return pre;
 	}, []);
@@ -68,7 +68,6 @@ const sliceName = computed(() => {
 //监听搜索事件
 watch(searchValue, (value) => {
 	expandedKeys.value = findParentId(value as string);
-	console.log(expandedKeys.value, 'as');
 	searchValue.value = value;
 	autoExpandParent.value = true;
 });

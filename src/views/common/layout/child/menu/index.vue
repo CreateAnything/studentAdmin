@@ -1,29 +1,35 @@
 <script setup lang="ts" name="Menu">
 import { usePremissionStore } from '@/store/premission';
+import { MenuTree } from '@/views/admin/authority/menu/type';
+import { MenuProps } from 'ant-design-vue';
+import { Key } from 'ant-design-vue/lib/_util/type';
 import { ref, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import SubMenu from './menuItem/index.vue';
-import { MenuItem } from 'global';
 const props = defineProps<{
-	menuList: MenuItem[];
+	menuList: MenuTree[];
 }>();
-type MenuEvent = {
-	key: string;
-	keyPath: string[];
-};
+
 const router = useRouter();
 const premission = usePremissionStore();
-
 const { menuList } = toRefs(props);
-const selectedKeys = ref<string[]>();
-const openKeys = ref<string[]>([]);
+const selectedKeys = ref<Key[]>([]);
+const openKeys = ref<Key[]>([]);
+const currentPath = premission.getCurrentPath;
+if (currentPath !== undefined) {
+	selectedKeys.value = [currentPath];
+}
 
-selectedKeys.value = [premission.getCurrentPath as string];
 openKeys.value = [premission.getFatherPath];
 
-const handleMenuItemChange = (item: MenuEvent) => {
-	premission.pathLevel = item.keyPath;
-	router.push(item.key);
+const handleMenuItemChange: MenuProps['onClick'] = (info) => {
+	premission.setPathLevel(info.keyPath as Key[]);
+	router.push(info.key as string);
+};
+
+const onOpenChange: MenuProps['onOpenChange'] = (Keys) => {
+	const lateKey = Keys.at(-1);
+	lateKey && (openKeys.value = [lateKey]);
 };
 </script>
 
@@ -34,11 +40,12 @@ const handleMenuItemChange = (item: MenuEvent) => {
 		v-model:openKeys="openKeys"
 		mode="inline"
 		theme="dark"
+		@openChange="onOpenChange"
 		@click="handleMenuItemChange"
 	>
 		<template v-for="item in menuList" :key="item.key">
-			<template v-if="!item.children">
-				<a-menu-item :key="item.path">
+			<template v-if="item.children.length === 0">
+				<a-menu-item :key="item.url">
 					<template #icon>
 						<svg-icon :name="item.icon"></svg-icon>
 					</template>
@@ -46,7 +53,7 @@ const handleMenuItemChange = (item: MenuEvent) => {
 				</a-menu-item>
 			</template>
 			<template v-else>
-				<SubMenu :menu="item" :key="item.path"></SubMenu>
+				<SubMenu :menu="item" :key="item.url"></SubMenu>
 			</template>
 		</template>
 	</a-menu>

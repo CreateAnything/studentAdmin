@@ -14,14 +14,16 @@ type BaseConfig = {
 	label: string;
 	span: number;
 	labelCol?: { span: number };
+	changeFn?: (...args: any) => void;
 } & FormItemType;
 
 type InputConfig = {
 	type: 'input';
 	inputType: InputType;
 	showCount?: boolean;
-	disabled?: false;
+	disabled?: boolean;
 	rows?: number;
+	addBefore?: string;
 } & BaseConfig;
 
 type SelectConfig = {

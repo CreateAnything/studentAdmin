@@ -5,8 +5,7 @@ export const findAllTeacher = async (): Promise<Teacher[]> => {
 	const result = await MyRequest.get<Teacher[]>({
 		url: Api.FIND_TEACHER,
 	});
-	console.log(result.page);
-	return result.page;
+	return result;
 };
 
 //删除老师
@@ -29,5 +28,5 @@ export const findTeacherById = async (id: number): Promise<Teacher> => {
 	const result = await MyRequest.get<Teacher>({
 		url: Api.FIND_TEACHERBYID + '/' + id,
 	});
-	return result.page;
+	return result;
 };
