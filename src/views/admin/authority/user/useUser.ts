@@ -50,7 +50,7 @@ const useUser = () => {
 
 	const onSubmit = async () => {
 		if (!isEdit.value) {
-			userForm.value.createUser = user.userInfo.username;
+			userForm.value.createUser = 'admin';
 			await addUser(userForm.value);
 		} else {
 			await editUser(userForm.value);

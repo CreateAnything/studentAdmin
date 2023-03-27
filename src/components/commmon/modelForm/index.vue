@@ -95,8 +95,13 @@ defineExpose<ModelExpose>({
 						:name="item.key"
 						:rules="item.rules"
 					>
+						<a-input-password
+							v-if="item.inputType === 'password'"
+							:placeholder="item.placeholder"
+							v-model:value="stateForm[item.key]"
+						></a-input-password>
 						<a-textarea
-							v-if="item.inputType === 'area'"
+							v-else-if="item.inputType === 'area'"
 							:placeholder="item.placeholder"
 							v-model:value="stateForm[item.key]"
 							:rows="item.rows"

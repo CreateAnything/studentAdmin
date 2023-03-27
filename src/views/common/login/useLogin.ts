@@ -17,9 +17,13 @@ const useLogin = (router: Router) => {
 		const result = await userLogin(formState);
 		if (result) {
 			const menuTree = GetListToTree({ data: result.menuList });
+			if (menuTree.length === 0) {
+				message.error('该用户没有菜单请联系管理员添加菜单后使用');
+				return;
+			}
+			const path = menuTree[0].url;
 			user.setUserMenu(menuTree);
 			user.setUserInfo(result);
-			const path = menuTree[0].url;
 			router.push(path);
 			premission.setPathLevel([path]);
 			message.success('登陆成功!');

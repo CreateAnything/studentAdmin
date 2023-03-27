@@ -1,13 +1,6 @@
+import type { FormItem } from '@/components/commmon/modelForm/form/type';
 import type { Rule } from 'ant-design-vue/es/form';
 import { RouteRecordRaw } from 'vue-router';
-type ValidatorsType<T, K extends keyof T> = Record<
-	string,
-	ValidatorRules
->;
-type EnentStack<T, K extends keyof T> = Record<
-	K,
-	(...args: any[]) => void
->;
 
 declare type FormState = {
 	[index: string]: any;
@@ -27,6 +20,15 @@ declare type MenuItem = {
 	children?: MenuItem[]; //路由子列表
 	id: string; //当前菜单的id
 };
+
+declare type ValidatorsType<T, K extends keyof T> = Record<
+	K,
+	ValidatorRules
+>;
+declare type EnentStack<T, K extends keyof T> = Record<
+	K,
+	(...args: any[]) => void
+>;
 declare type RouterRow = RouteRecordRaw;
 declare type TableColums = TableColumnsType;
 declare type ValidatorRules = (
@@ -39,3 +41,7 @@ declare interface ModeOptions<T = string> {
 	enventStack?: EnentStack<T>;
 	validator?: ValidatorsType<T>;
 }
+
+declare type CreateModelFn = <T = string>(
+	options?: ModeOptions<T>
+) => FormItem[];

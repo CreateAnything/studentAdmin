@@ -1,19 +1,8 @@
-import { MenuItem, MenuTree } from '@/views/admin/authority/menu/type';
-import { Roels } from '@/views/admin/authority/user/type';
+import { MenuTree } from '@/views/admin/authority/menu/type';
+import { UserInfo } from '@/views/common/login/type';
 import { Component } from 'vue';
 export enum Api {
 	LOGIN_IN = '/studentmanager/user/login',
-}
-interface UserPaylod {
-	token: string;
-	menuList: MenuItem[];
-	username: string;
-	roleId: Roels;
-}
-
-interface State {
-	userInfo: UserPaylod;
-	menuTree: MenuTree[];
 }
 
 interface RoutesModulesType {
@@ -21,4 +10,8 @@ interface RoutesModulesType {
 	modules: Record<string, Component>;
 }
 
-export type { RoutesModulesType, State, UserPaylod };
+type UserRootState = {
+	userInfo: UserInfo;
+	menuTree: MenuTree[];
+};
+export type { RoutesModulesType, UserRootState };
