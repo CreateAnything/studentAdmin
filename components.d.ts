@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
 		ABreadcrumbItem: typeof import('ant-design-vue/es')['BreadcrumbItem'];
 		AButton: typeof import('ant-design-vue/es')['Button'];
 		ACard: typeof import('ant-design-vue/es')['Card'];
+		ACascader: typeof import('ant-design-vue/es')['Cascader'];
 		ACheckbox: typeof import('ant-design-vue/es')['Checkbox'];
 		ACol: typeof import('ant-design-vue/es')['Col'];
 		ADatePicker: typeof import('ant-design-vue/es')['DatePicker'];
@@ -22,6 +23,7 @@ declare module '@vue/runtime-core' {
 		ADivider: typeof import('ant-design-vue/es')['Divider'];
 		ADrawer: typeof import('ant-design-vue/es')['Drawer'];
 		ADropdown: typeof import('ant-design-vue/es')['Dropdown'];
+		AEmpty: typeof import('ant-design-vue/es')['Empty'];
 		AForm: typeof import('ant-design-vue/es')['Form'];
 		AFormItem: typeof import('ant-design-vue/es')['FormItem'];
 		AInput: typeof import('ant-design-vue/es')['Input'];
@@ -50,6 +52,8 @@ declare module '@vue/runtime-core' {
 		ATabs: typeof import('ant-design-vue/es')['Tabs'];
 		ATag: typeof import('ant-design-vue/es')['Tag'];
 		ATextarea: typeof import('ant-design-vue/es')['Textarea'];
+		ATimePicker: typeof import('ant-design-vue/es')['TimePicker'];
+		ATimeRangePicker: typeof import('ant-design-vue/es')['TimeRangePicker'];
 		ATooltip: typeof import('ant-design-vue/es')['Tooltip'];
 		ATree: typeof import('ant-design-vue/es')['Tree'];
 		ATreeSelect: typeof import('ant-design-vue/es')['TreeSelect'];

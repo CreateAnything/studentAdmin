@@ -1,4 +1,4 @@
-import { SelectProps } from 'ant-design-vue';
+import { CascaderProps, SelectProps } from 'ant-design-vue';
 import { Rule } from 'ant-design-vue/lib/form';
 
 // type FormType = 'input' | 'select' | 'datepicker' | 'treeselecte';
@@ -44,9 +44,10 @@ type DatePickerConfig = {
 type TreeSelectConfig = {
 	type: 'treeSelecter';
 	showSearch?: boolean;
-	fieldNames: { children: string; label: string; value: string };
+	fieldNames?: { children: string; label: string; value: string };
 	treeData: any[];
 	maxHeight: number;
+	treeExpendAll?: boolean;
 } & BaseConfig;
 
 type SwitchConfig = {
@@ -57,12 +58,29 @@ type SwitchConfig = {
 	unCheckedValue?: string | number | boolean;
 } & BaseConfig;
 
+type TimePicker = {
+	type: 'timePicker';
+	allowClear?: boolean;
+	disabled?: boolean;
+	format?: string;
+	valueFormat?: string;
+	pickerType: 'timePicker' | 'timeRangePicker';
+} & BaseConfig;
+
+type TreeCascader = {
+	type: 'cascader';
+	options: CascaderProps['options'];
+	expandTrigger?: CascaderProps['expandTrigger'];
+} & BaseConfig;
+
 type FormItem =
 	| InputConfig
 	| SelectConfig
 	| DatePickerConfig
 	| SwitchConfig
-	| TreeSelectConfig;
+	| TreeSelectConfig
+	| TimePicker
+	| TreeCascader;
 
 //form的配置
 type FormConfig = {

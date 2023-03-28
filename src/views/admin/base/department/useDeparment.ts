@@ -1,5 +1,7 @@
 import { ModelExpose } from '@/components/commmon/modelForm/form/type';
+import { TableConfig } from '@/components/commmon/table/type';
 import { onMounted, ref } from 'vue';
+import { createTableConfig } from './config';
 import {
 	addDepartment,
 	editDepartment,
@@ -12,6 +14,7 @@ const useDepartment = () => {
 	const loading = ref<boolean>(false);
 	const isEdit = ref<boolean>(false);
 	const modelRef = ref<ModelExpose>();
+	const tableConfig = ref<TableConfig>();
 	const departmentForm = ref<DpeartmentForm>({
 		name: '',
 	});
@@ -38,6 +41,7 @@ const useDepartment = () => {
 	const init = async () => {
 		loading.value = true;
 		departmentList.value = await findAllDeparment();
+		tableConfig.value = createTableConfig();
 		loading.value = false;
 	};
 	onMounted(() => {
@@ -48,6 +52,7 @@ const useDepartment = () => {
 		departmentList,
 		departmentForm,
 		modelRef,
+		tableConfig,
 		onOpenMode,
 		onSubmit,
 		onEdit,

@@ -4,11 +4,11 @@ import Page from '@/components/commmon/page/index.vue';
 import useCourse from './useCourse';
 const {
 	loading,
-	courseList,
 	courseForm,
-	TableColums,
+	tableConfig,
 	ModelConfig,
 	modelRef,
+	courseList,
 	onOpenModel,
 	onEdit,
 	onRemove,
@@ -23,38 +23,32 @@ const {
 			</DescHead>
 		</template>
 		<template #main>
-			<a-card>
-				<ModelForm
-					ref="modelRef"
-					v-model:state="courseForm"
-					:config="ModelConfig"
-					@submit="onSubmit"
-				/>
-				<template #extra>
-					<a-button type="primary" @click="onOpenModel"
-						>新增</a-button
-					>
-				</template>
-				<a-table
-					style="height: 100%"
-					:columns="TableColums"
-					:data-source="courseList"
-				>
-					<template #bodyCell="{ column, record }">
-						<template v-if="column.key == 'action'">
-							<a-button
-								type="primary"
-								size="small"
-								@click="() => onEdit(record)"
-								>编辑</a-button
-							>
-							<confirm
-								@confirm="() => onRemove(record.id)"
-							/>
-						</template>
+			<ModelForm
+				ref="modelRef"
+				v-model:state="courseForm"
+				:config="ModelConfig"
+				@submit="onSubmit"
+			/>
+			<Table
+				:config="tableConfig"
+				:loading="loading"
+				@add="onOpenModel"
+				:sourse="courseList"
+			>
+				<template v-slot:bodyCell="{ scope }">
+					<template v-if="scope.column.key == 'action'">
+						<a-button
+							type="primary"
+							size="small"
+							@click="() => onEdit(scope.record)"
+							>编辑</a-button
+						>
+						<confirm
+							@confirm="() => onRemove(scope.record.id)"
+						/>
 					</template>
-				</a-table>
-			</a-card>
+				</template>
+			</Table>
 		</template>
 	</Page>
 </template>

@@ -2,17 +2,31 @@ import Loading from '@/components/commmon/loading/index.vue';
 import { ComponentPublicInstance, ObjectDirective, createApp } from 'vue';
 interface DirectiveEL extends HTMLElement {
 	instance: ComponentPublicInstance;
+	startTime: number;
 }
 const LoadingDirective: ObjectDirective = {
 	mounted(el: DirectiveEL, bingding) {
 		const app = createApp(Loading);
 		const instance = app.mount(document.createElement('div'));
 		el.instance = instance;
+		el.startTime = Date.now(); //记录开始时间
 		bingding.value && appendEl(el);
 	},
-	updated(el, bingding) {
+	updated(el, bingding, vnode) {
 		if (bingding.value !== bingding.oldValue) {
-			bingding.value ? appendEl(el) : removeEl(el);
+			if (bingding.value) {
+				appendEl(el);
+			} else {
+				const elapspedTime = Date.now() - el.startTime;
+				const minDuration = 500;
+				if (elapspedTime >= minDuration) {
+					removeEl(el);
+				} else {
+					setTimeout(() => {
+						removeEl(el);
+					}, minDuration - elapspedTime);
+				}
+			}
 		}
 	},
 };

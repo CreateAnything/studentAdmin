@@ -2,14 +2,13 @@ import {
 	FormItem,
 	ModelExpose,
 } from '@/components/commmon/modelForm/form/type';
-import { useUserStore } from '@/store/user';
+import { TableConfig } from '@/components/commmon/table/type';
 import { TableColumnsType } from 'ant-design-vue';
 import { ValidatorRules } from 'global';
 import { computed, onMounted, ref } from 'vue';
-import { createColums, createModelConfig } from './config';
+import { createModelConfig, createTableConfig } from './config';
 import { addUser, editUser, findAllUser, removeUser } from './request';
 import { Roels, User, UserForm } from './type';
-const user = useUserStore();
 const useUser = () => {
 	const loading = ref<boolean>(false);
 	const isEdit = ref<boolean>(false);
@@ -17,6 +16,7 @@ const useUser = () => {
 	const TableColums = ref<TableColumnsType>([]);
 	const ModelConfig = ref<FormItem[]>([]);
 	const userList = ref<User[]>([]);
+	const TaleConfig = ref<TableConfig>();
 	const userForm = ref<UserForm>({
 		userName: '',
 		password: '',
@@ -71,7 +71,7 @@ const useUser = () => {
 	const init = async () => {
 		loading.value = true;
 		userList.value = await findAllUser();
-		TableColums.value = createColums();
+		TaleConfig.value = createTableConfig();
 		ModelConfig.value = createModelConfig({
 			validator: {
 				confirmPassword: validatePassword,
@@ -91,6 +91,7 @@ const useUser = () => {
 		ModelConfig,
 		formatRole,
 		modelRef,
+		TaleConfig,
 		onOpenModel,
 		onSubmit,
 		onEdit,

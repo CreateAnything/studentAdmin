@@ -2,14 +2,15 @@
 import DescHead from '@/components/commmon/descHead/index.vue';
 import ModelFrom from '@/components/commmon/modelForm/index.vue';
 import Page from '@/components/commmon/page/index.vue';
+import Table from '@/components/commmon/table/index.vue';
 import useClass from './useClass';
 const {
 	loading,
 	configs,
-	colums,
-	classList,
+	tableConfig,
 	modelRef,
 	stateForm,
+	classList,
 	onAdd,
 	onSubmit,
 	onEdit,
@@ -26,38 +27,32 @@ const {
 			</DescHead>
 		</template>
 		<template #main>
-			<a-card>
-				<ModelFrom
-					v-model:state="stateForm"
-					ref="modelRef"
-					@submit="onSubmit"
-					:config="configs"
-				/>
-				<template #extra>
-					<a-button type="primary" @click="onAdd"
-						>新增</a-button
-					>
-				</template>
-				<a-table
-					style="height: 100%"
-					:columns="colums"
-					:data-source="classList"
-				>
-					<template #bodyCell="{ column, record }">
-						<template v-if="column.key == 'action'">
-							<a-button
-								type="primary"
-								size="small"
-								@click="() => onEdit(record)"
-								>编辑</a-button
-							>
-							<confirm
-								@confirm="() => removeClass(record.id)"
-							/>
-						</template>
+			<ModelFrom
+				v-model:state="stateForm"
+				ref="modelRef"
+				@submit="onSubmit"
+				:config="configs"
+			/>
+			<Table
+				:config="tableConfig"
+				:loading="loading"
+				@add="onAdd"
+				:sourse="classList"
+			>
+				<template v-slot:bodyCell="{ scope }">
+					<template v-if="scope.column.key == 'action'">
+						<a-button
+							type="primary"
+							size="small"
+							@click="() => onEdit(scope.record)"
+							>编辑</a-button
+						>
+						<confirm
+							@confirm="() => removeClass(scope.record.id)"
+						/>
 					</template>
-				</a-table>
-			</a-card>
+				</template>
+			</Table>
 		</template>
 	</Page>
 </template>

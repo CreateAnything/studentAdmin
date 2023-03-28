@@ -3,7 +3,7 @@ import dayjs from '_dayjs@1.11.7@dayjs';
 import { Student, StudentForm } from '../type';
 import useAdd from './useAdd';
 const emit = defineEmits<{
-	(e: 'submit', payload: StudentForm): void;
+	(e: 'submit', payload: StudentForm, type: boolean): void;
 }>();
 const {
 	validateInfos,
@@ -12,6 +12,7 @@ const {
 	dateFormat,
 	classList,
 	departmentList,
+	courseList,
 	isEdit,
 	resetFields,
 	validate,
@@ -26,7 +27,7 @@ const handleCancle = () => {
 //提交
 const handleSubmit = () => {
 	validate().then(() => {
-		emit('submit', formState.value);
+		emit('submit', formState.value, isEdit.value);
 		handleCancle();
 	});
 };
@@ -34,7 +35,12 @@ const handleSubmit = () => {
 const openModel = (type: boolean, payload: Student) => {
 	isEdit.value = type;
 	if (payload) {
-		formState.value = payload;
+		formState.value.classId = payload.classId;
+		formState.value.courseIds = JSON.parse(payload.courseIds!);
+		formState.value.departmentId = payload.departmentId;
+		formState.value.name = payload.name;
+		formState.value.password = payload.password;
+		formState.value.sex = payload.sex;
 		formState.value.birthday = dayjs(
 			payload.birthday
 		) as unknown as string;
@@ -113,6 +119,26 @@ defineExpose({
 						>
 							<a-select-option
 								v-for="item in departmentList"
+								:key="item.id"
+								:value="item.id"
+							>
+								{{ item.name }}
+							</a-select-option>
+						</a-select>
+					</a-form-item>
+				</a-col>
+				<a-col :span="6">
+					<a-form-item
+						label="课程"
+						v-bind="validateInfos.courseIds"
+					>
+						<a-select
+							v-model:value="formState.courseIds"
+							placeholder="请选择课程"
+							mode="multiple"
+						>
+							<a-select-option
+								v-for="item in courseList"
 								:key="item.id"
 								:value="item.id"
 							>

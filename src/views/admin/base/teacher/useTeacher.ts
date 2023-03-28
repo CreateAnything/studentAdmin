@@ -2,6 +2,7 @@ import {
 	FormItem,
 	ModelExpose,
 } from '@/components/commmon/modelForm/form/type';
+import { TableConfig } from '@/components/commmon/table/type';
 import { onMounted, ref } from 'vue';
 import { findAllClassList } from '../class/request';
 import { ClassItem } from '../class/type';
@@ -9,7 +10,7 @@ import { findAllCourse } from '../course/request';
 import { CourseItem } from '../course/type';
 import { findAllDeparment } from '../department/request';
 import { DeparmentItem } from '../department/type';
-import { createModelConfig } from './config';
+import { createModelConfig, createTableConfig } from './config';
 import {
 	addTeacher,
 	editTeacher,
@@ -19,6 +20,7 @@ import {
 import { Teacher, TeacherForm } from './type';
 const useTeacger = () => {
 	const config = ref<FormItem[]>([]);
+	const tableConfig = ref<TableConfig>();
 	const loading = ref<boolean>(false);
 	const teacherList = ref<Teacher[]>([]);
 	const departmentList = ref<DeparmentItem[]>([]);
@@ -70,6 +72,7 @@ const useTeacger = () => {
 			departmentList.value,
 			courseList.value
 		);
+		tableConfig.value = createTableConfig();
 		loading.value = false;
 	};
 	onMounted(() => {
@@ -83,6 +86,7 @@ const useTeacger = () => {
 		modelRef,
 		classList,
 		config,
+		tableConfig,
 		onSubmit,
 		onEdit,
 		onRemove,

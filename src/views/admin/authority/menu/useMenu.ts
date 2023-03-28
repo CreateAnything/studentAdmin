@@ -2,10 +2,15 @@ import {
 	FormItem,
 	ModelExpose,
 } from '@/components/commmon/modelForm/form/type';
+import { TableConfig } from '@/components/commmon/table/type';
 import { GetListToTree } from '@/utils';
 import { onMounted, ref } from 'vue';
 import { Roels } from '../user/type';
-import { createModelConfig, urlPattern } from './config';
+import {
+	createModelConfig,
+	createTableConfig,
+	urlPattern,
+} from './config';
 import {
 	addMenu,
 	editMenu,
@@ -18,6 +23,7 @@ const useMenu = () => {
 	const visible = ref<boolean>(false);
 	const isEdit = ref<boolean>(false);
 	const activeKey = ref<Roels>(Roels.Admin);
+	const tableConfig = ref<TableConfig>();
 	const modelRef = ref<ModelExpose>();
 	const menuList = ref<MenuItem[]>([]);
 	const modelConfig = ref<FormItem[]>([]);
@@ -79,13 +85,14 @@ const useMenu = () => {
 			menuForm.value.keyd = path;
 		}
 	};
-
+	const nodeSelect = (menu: MenuTree[]) => {
+		nodeList.value = menu;
+	};
 	const init = async () => {
 		loading.value = true;
 		menuList.value = await findMenuListByRoleId(activeKey.value);
 		const treeList = GetListToTree({ data: menuList.value });
 		menuTree.value[0].children = treeList;
-
 		modelConfig.value = createModelConfig<MenuForm>({
 			data: { menuTree: menuTree.value },
 			enventStack: {
@@ -93,6 +100,7 @@ const useMenu = () => {
 			},
 		});
 		nodeList.value = treeList;
+		tableConfig.value = createTableConfig();
 		loading.value = false;
 	};
 
@@ -110,6 +118,8 @@ const useMenu = () => {
 		visible,
 		modelConfig,
 		menuList,
+		tableConfig,
+		nodeSelect,
 		onTabsChange,
 		onSubmit,
 		onEdit,

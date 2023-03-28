@@ -13,7 +13,7 @@ export const addStudent = async (body: StudentForm): Promise<void> => {
 
 //编辑学生
 export const editStudent = async (body: StudentForm): Promise<void> => {
-	await MyRequest.put({ url: Api.EDIT_STU, params: body });
+	await MyRequest.put({ url: Api.EDIT_STU, data: body });
 };
 
 //删除学生

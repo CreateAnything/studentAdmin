@@ -21,7 +21,6 @@ if (currentPath !== undefined) {
 }
 
 openKeys.value = [premission.getFatherPath];
-
 const handleMenuItemChange: MenuProps['onClick'] = (info) => {
 	premission.setPathLevel(info.keyPath as Key[]);
 	router.push(info.key as string);

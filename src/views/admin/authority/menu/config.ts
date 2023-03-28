@@ -1,4 +1,5 @@
 import { FormItem } from '@/components/commmon/modelForm/form/type';
+import { CreateTableConfig } from '@/components/commmon/table/type';
 import { ModeOptions } from 'global';
 import { Roels } from '../user/type';
 
@@ -142,4 +143,47 @@ export const createTabConfig = (): { label: string; value: Roels }[] => {
 			value: Roels.Student,
 		},
 	];
+};
+export const createTableConfig: CreateTableConfig = () => {
+	return {
+		showAdd: true,
+		colums: [
+			{
+				title: 'Name',
+				dataIndex: 'name',
+				key: 'name',
+				align: 'center',
+			},
+			{
+				title: 'Key',
+				dataIndex: 'keyd',
+				key: 'keyd',
+				align: 'center',
+			},
+			{
+				title: 'Icon',
+				dataIndex: 'icon',
+				key: 'icon',
+				align: 'center',
+			},
+			{
+				title: 'Sort',
+				dataIndex: 'sort',
+				key: 'sort',
+				align: 'center',
+			},
+			{
+				title: 'Enable',
+				dataIndex: 'enable',
+				key: 'enable',
+				align: 'center',
+			},
+			{
+				title: 'Action',
+				dataIndex: 'action ',
+				key: 'action',
+				align: 'center',
+			},
+		],
+	};
 };

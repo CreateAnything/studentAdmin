@@ -1,14 +1,13 @@
 <script setup lang="ts">
+import DescHead from '@/components/commmon/descHead/index.vue';
 import { ref } from 'vue';
 import Add from './add/index.vue';
 import useStudent from './useStudent';
 const addCompnentRef = ref();
 const {
-	config,
-	formState,
-	Colums,
-	studentList,
+	tableConfig,
 	loading,
+	studentList,
 	removeStudent,
 	onAdd,
 	onAddStudentEvent,
@@ -18,36 +17,34 @@ const {
 <template>
 	<Page :showHead="true" v-loading="loading">
 		<template #head>
-			<Search :conifg="config" :modelValue="formState" />
+			<DescHead title="学生管理">
+				<template #body>一个用户管理学生信息的模块</template>
+			</DescHead>
 		</template>
 		<template #main>
 			<Add ref="addCompnentRef" @submit="onAddStudentEvent" />
-			<a-card title="学生信息展示">
-				<template #extra>
-					<a-button type="primary" @click="onAdd"
-						>新增</a-button
-					>
-				</template>
-				<a-table
-					style="height: 100%"
-					:columns="Colums"
-					:data-source="studentList"
-				>
-					<template #bodyCell="{ column, record }">
-						<template v-if="column.key == 'action'">
-							<a-button
-								type="primary"
-								size="small"
-								@click="onEdit(record.id)"
-								>编辑</a-button
-							>
-							<confirm
-								@confirm="() => removeStudent(record.id)"
-							/>
-						</template>
+			<Table
+				:config="tableConfig"
+				:loading="loading"
+				@add="onAdd"
+				:sourse="studentList"
+			>
+				<template v-slot:bodyCell="{ scope }">
+					<template v-if="scope.column.key == 'action'">
+						<a-button
+							type="primary"
+							size="small"
+							@click="() => onEdit(scope.record)"
+							>编辑</a-button
+						>
+						<confirm
+							@confirm="
+								() => removeStudent(scope.record.id)
+							"
+						/>
 					</template>
-				</a-table>
-			</a-card>
+				</template>
+			</Table>
 		</template>
 	</Page>
 </template>

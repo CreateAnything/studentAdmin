@@ -7,8 +7,12 @@ export enum Api {
 export interface CourseItem {
 	id: string;
 	name: string;
+	classTime: string;
+	address: string | string[];
+	section: number;
+	teacherId?: number;
+	tname: string;
+	week: number;
 }
 
-export interface CourseForm {
-	name: string;
-}
+export type CourseForm = Omit<CourseItem, 'id' | 'tname'>;

@@ -2,10 +2,11 @@
 import DescHead from '@/components/commmon/descHead/index.vue';
 import Page from '@/components/commmon/page/index.vue';
 import { ref } from 'vue';
-import { Colums, ModelColums } from './config';
+import { ModelColums, createTableConfig } from './config';
 import ModalScore from './model/index.vue';
 import useScore from './useScore';
 const modalRef = ref<typeof ModalScore>();
+const tableConfig = createTableConfig();
 const { loading, studentList, getCourseName, getScore, onUpdateScore } =
 	useScore();
 const openModal = () => {
@@ -27,27 +28,23 @@ const openModal = () => {
 				ref="modalRef"
 				@submit="onUpdateScore"
 			/>
-			<a-card :loading="loading">
-				<template #extra>
-					<a-button type="primary" @click="openModal"
-						>打分</a-button
-					>
-				</template>
-				<a-table
-					style="height: 100%"
-					:columns="Colums"
-					:data-source="studentList"
-				>
-					<template #bodyCell="{ column, record }">
-						<template v-if="column.key === 'cname'">
-							<span>{{ getCourseName }}</span>
-						</template>
-						<template v-if="column.key === 'score'">
-							<span>{{ getScore(record.scoreDtos) }}</span>
-						</template>
+			<Table
+				:config="tableConfig"
+				:loading="loading"
+				@add="openModal"
+				:sourse="studentList"
+			>
+				<template v-slot:bodyCell="{ scope }">
+					<template v-if="scope.column.dataIndex === 'cname'">
+						<span>{{ getCourseName }}</span>
 					</template>
-				</a-table>
-			</a-card>
+					<template v-if="scope.column.dataIndex === 'score'">
+						<span>{{
+							getScore(scope.record.scoreDtos)
+						}}</span>
+					</template>
+				</template>
+			</Table>
 		</template>
 	</Page>
 </template>

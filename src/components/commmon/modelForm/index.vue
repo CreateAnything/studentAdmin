@@ -143,10 +143,9 @@ defineExpose<ModelExpose>({
 							:placeholder="item.placeholder"
 							:dropdown-style="{
 								maxHeight: item.maxHeight + 'px',
-								overflow: 'auto',
 							}"
 							allow-clear
-							tree-default-expand-all
+							:tree-default-expand-all="item?.treeExpendAll"
 							:tree-data="item.treeData"
 							:field-names="item.fieldNames"
 						>
@@ -179,6 +178,43 @@ defineExpose<ModelExpose>({
 							:picker="item.picker"
 							:allow-clear="item.allowClear"
 							:value-format="item.valueFormat"
+						/>
+					</a-form-item>
+					<a-form-item
+						v-if="item.type === 'timePicker'"
+						:label="item.label"
+						:name="item.key"
+						:placeholder="item.placeholder"
+						:rules="item.rules"
+					>
+						<a-time-picker
+							class="full-width"
+							v-if="item.pickerType === 'timePicker'"
+							:allow-clear="item?.allowClear"
+							:format="item?.format"
+							:value-format="item?.valueFormat"
+							v-model:value="stateForm[item.key]"
+						/>
+						<a-time-range-picker
+							class="full-width"
+							v-if="item.pickerType === 'timeRangePicker'"
+							:allow-clear="item?.allowClear"
+							:format="item?.format"
+							:value-format="item?.valueFormat"
+							v-model:value="stateForm[item.key]"
+						/>
+					</a-form-item>
+					<a-form-item
+						v-if="item.type === 'cascader'"
+						:label="item.label"
+						:name="item.key"
+						:rules="item.rules"
+					>
+						<a-cascader
+							v-model:value="stateForm[item.key]"
+							:options="item.options"
+							:placeholder="item?.placeholder"
+							:expand-trigger="item?.expandTrigger"
 						/>
 					</a-form-item>
 				</a-col>

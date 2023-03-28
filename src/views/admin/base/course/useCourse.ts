@@ -2,9 +2,11 @@ import {
 	FormItem,
 	ModelExpose,
 } from '@/components/commmon/modelForm/form/type';
-import { TableColumnsType } from 'ant-design-vue';
+import { TableConfig } from '@/components/commmon/table/type';
 import { onMounted, ref } from 'vue';
-import { createModelConfig, createTableColums } from './config';
+import { findAllTeacher } from '../teacher/request';
+import { Teacher } from '../teacher/type';
+import { createModelConfig, createTableConfig } from './config';
 import {
 	addCourse,
 	editCourse,
@@ -16,11 +18,17 @@ const useCourse = () => {
 	const loading = ref<boolean>(false);
 	const isEdit = ref<boolean>(false);
 	const courseList = ref<CourseItem[]>([]);
+	const teacherList = ref<Teacher[]>([]);
 	const modelRef = ref<ModelExpose>();
-	const TableColums = ref<TableColumnsType>([]);
+	const tableConfig = ref<TableConfig>();
 	const ModelConfig = ref<FormItem[]>([]);
 	const courseForm = ref<CourseForm>({
 		name: '',
+		week: 1,
+		section: 1,
+		address: '',
+		classTime: '12:00',
+		teacherId: undefined,
 	});
 
 	const onOpenModel = () => {
@@ -38,6 +46,8 @@ const useCourse = () => {
 	};
 
 	const onSubmit = async () => {
+		const address = courseForm.value.address as string[];
+		courseForm.value.address = address.join('/');
 		if (!isEdit.value) {
 			await addCourse(courseForm.value);
 		} else {
@@ -48,9 +58,15 @@ const useCourse = () => {
 
 	const init = async () => {
 		loading.value = true;
+		teacherList.value = await findAllTeacher();
 		courseList.value = await findAllCourse();
-		TableColums.value = createTableColums();
-		ModelConfig.value = createModelConfig();
+		tableConfig.value = createTableConfig();
+		ModelConfig.value = createModelConfig({
+			data: {
+				teacherId: teacherList.value,
+			},
+		});
+		console.log(courseList.value);
 		loading.value = false;
 	};
 
@@ -64,7 +80,7 @@ const useCourse = () => {
 		onSubmit,
 		onOpenModel,
 		modelRef,
-		TableColums,
+		tableConfig,
 		ModelConfig,
 		courseList,
 		courseForm,

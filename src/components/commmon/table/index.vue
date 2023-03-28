@@ -1,28 +1,44 @@
 <script lang="ts" setup>
-import { TableColumnsType } from 'ant-design-vue';
-import { computed, toRefs } from 'vue';
+import { TableProps } from 'ant-design-vue';
+import { computed, reactive, toRefs, useSlots } from 'vue';
+import { TableConfig } from './type';
 interface Props {
-	colums: TableColumnsType;
 	sourse: any[];
-	title?: string;
-	btnSize?: 'small' | 'large';
+	loading: boolean;
+	config: TableConfig;
+	pagination?: TableProps['pagination'];
 }
 const props = withDefaults(defineProps<Props>(), {
-	title: '',
-	btnSize: 'small',
+	loading: false,
+	config: () => ({
+		title: '',
+		colums: [],
+		sourse: [],
+		pageSize: 5,
+		bordered: true,
+		showAdd: true,
+		size: 'middle',
+	}),
 });
-
+const paginationState = reactive<{ current: number; pageSize: number }>({
+	current: 1,
+	pageSize: props.config.pageSize || 5,
+});
+const slots = useSlots();
+const renderArr = Object.keys(slots);
+const paginationChange: TableProps['onChange'] = ({ current }) => {
+	current && (paginationState.current = current);
+};
 const emit = defineEmits<{
-	(e: 'edit', id: number): void;
 	(e: 'add'): void;
-	(e: 'remove', id: number): void;
+	(e: 'update:modeValue', value: boolean): void;
 }>();
-const { colums, sourse, btnSize } = toRefs(props);
-const GetColums = computed<TableColumnsType>(() => {
-	return colums.value.map((item) => {
+
+const { config, loading, sourse } = toRefs(props);
+const GetColums = computed<TableProps['columns']>(() => {
+	return config.value.colums?.map((item) => {
 		return {
 			...item,
-			key: item.key,
 			align: 'center',
 		};
 	});
@@ -30,34 +46,36 @@ const GetColums = computed<TableColumnsType>(() => {
 const onAdd = () => {
 	emit('add');
 };
-const onEdit = (id: number) => {
-	emit('edit', id);
-};
-const onRemove = (id: number) => {
-	emit('remove', id);
-};
 </script>
 <template>
-	<a-card>
+	<a-card :loading="loading">
 		<template #extra>
-			<a-button type="primary" @click="onAdd">新增</a-button>
+			<a-button
+				v-if="config?.showAdd"
+				type="primary"
+				@click="onAdd"
+				>{{ config.addName ? config.addName : '新增' }}</a-button
+			>
 		</template>
 		<a-table
+			v-if="sourse.length > 0"
 			style="height: 100%"
 			:columns="GetColums"
 			:data-source="sourse"
+			:size="config.size"
+			:bordered="config.bordered"
+			:pagination="paginationState"
+			@change="paginationChange"
 		>
-			<template #bodyCell="{ column, record }">
-				<template v-if="column.key == 'action'">
-					<a-button
-						type="primary"
-						:size="btnSize"
-						@click="() => onEdit(record.id)"
-						>编辑</a-button
-					>
-					<confirm @confirm="() => onRemove(record.id)" />
-				</template>
+			<template v-slot:[item]="scope" v-for="item in renderArr">
+				<slot :name="item" :scope="scope"></slot>
 			</template>
 		</a-table>
+		<a-empty v-else :description="null" style="height: 100%" />
 	</a-card>
 </template>
+<style lang="less" scoped>
+/deep/.ant-empty-description {
+	color: #dce0e6;
+}
+</style>

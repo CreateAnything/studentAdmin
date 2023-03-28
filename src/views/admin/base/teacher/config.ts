@@ -1,45 +1,45 @@
 import { FormItem } from '@/components/commmon/modelForm/form/type';
-import { TableColumnsType } from 'ant-design-vue';
+import { CreateTableConfig } from '@/components/commmon/table/type';
 import { ClassItem } from '../class/type';
 import { CourseItem } from '../course/type';
 import { DeparmentItem } from '../department/type';
-
-export const Colums: TableColumnsType = [
-	{
-		title: '序号',
-		customRender: (text: { index: number }) => {
-			return text.index + 1;
-		},
-	},
-	{
-		title: '姓名',
-		dataIndex: 'name',
-	},
-	{
-		title: '班级',
-		dataIndex: 'clazzName',
-	},
-	{
-		title: '院系',
-		dataIndex: 'dname',
-	},
-	{
-		title: '生日',
-		dataIndex: 'birthday',
-	},
-	{
-		title: '性别',
-		dataIndex: 'sex',
-	},
-	{
-		title: '操作',
-		key: 'action',
-	},
-].map((item) => ({
-	...item,
-	key: item.dataIndex || item.key,
-	align: 'center',
-}));
+export const createTableConfig: CreateTableConfig = () => {
+	return {
+		showAdd: true,
+		colums: [
+			{
+				title: '序号',
+				customRender: (text: { index: number }) => {
+					return text.index + 1;
+				},
+			},
+			{
+				title: '姓名',
+				dataIndex: 'name',
+			},
+			{
+				title: '班级',
+				dataIndex: 'clazzName',
+			},
+			{
+				title: '院系',
+				dataIndex: 'dname',
+			},
+			{
+				title: '生日',
+				dataIndex: 'birthday',
+			},
+			{
+				title: '性别',
+				dataIndex: 'sex',
+			},
+			{
+				title: '操作',
+				key: 'action',
+			},
+		],
+	};
+};
 
 export const createModelConfig = (
 	classList: ClassItem[],

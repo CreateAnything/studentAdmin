@@ -2,11 +2,10 @@
 import DescHead from '@/components/commmon/descHead/index.vue';
 import ModelForm from '@/components/commmon/modelForm/index.vue';
 import Page from '@/components/commmon/page/index.vue';
-import { Colums } from './config';
 import useTeacher from './useTeacher';
 const {
 	loading,
-	teacherList,
+	tableConfig,
 	config,
 	onEdit,
 	onSubmit,
@@ -14,6 +13,7 @@ const {
 	onRemove,
 	onAdd,
 	teacherForm,
+	teacherList,
 } = useTeacher();
 </script>
 
@@ -25,38 +25,32 @@ const {
 			</DescHead>
 		</template>
 		<template #main>
-			<a-card>
-				<ModelForm
-					ref="modelRef"
-					v-model:state="teacherForm"
-					:config="config"
-					@submit="onSubmit"
-				/>
-				<template #extra>
-					<a-button type="primary" @click="onAdd"
-						>新增</a-button
-					>
-				</template>
-				<a-table
-					style="height: 100%"
-					:columns="Colums"
-					:data-source="teacherList"
-				>
-					<template #bodyCell="{ column, record }">
-						<template v-if="column.key == 'action'">
-							<a-button
-								type="primary"
-								size="small"
-								@click="() => onEdit(record)"
-								>编辑</a-button
-							>
-							<confirm
-								@confirm="() => onRemove(record.id)"
-							/>
-						</template>
+			<ModelForm
+				ref="modelRef"
+				v-model:state="teacherForm"
+				:config="config"
+				@submit="onSubmit"
+			/>
+			<Table
+				:config="tableConfig"
+				:loading="loading"
+				@add="onAdd"
+				:sourse="teacherList"
+			>
+				<template v-slot:bodyCell="{ scope }">
+					<template v-if="scope.column.key == 'action'">
+						<a-button
+							type="primary"
+							size="small"
+							@click="() => onEdit(scope.record)"
+							>编辑</a-button
+						>
+						<confirm
+							@confirm="() => onRemove(scope.record.id)"
+						/>
 					</template>
-				</a-table>
-			</a-card>
+				</template>
+			</Table>
 		</template>
 	</Page>
 </template>

@@ -2,10 +2,11 @@ import {
 	FormItem,
 	ModelExpose,
 } from '@/components/commmon/modelForm/form/type';
-import { TableColumnsType } from 'ant-design-vue';
+import { TableConfig } from '@/components/commmon/table/type';
 import { onMounted, ref } from 'vue';
 import { findAllTeacher } from '../teacher/request';
 import { Teacher } from '../teacher/type';
+import { createTableConfig } from './config';
 import {
 	addClass,
 	deleteClass,
@@ -51,30 +52,6 @@ const createFormConfig = (teacherList: Teacher[]): FormItem[] => {
 	];
 	return FormConfig;
 };
-const ColumsCofnig: TableColumnsType = [
-	{
-		title: '序号',
-		customRender: (text: { index: number }) => {
-			return text.index + 1;
-		},
-	},
-	{
-		title: '班级',
-		dataIndex: 'clazzName',
-	},
-	{
-		title: '班主任姓名',
-		dataIndex: 'tname',
-	},
-	{
-		title: '操作',
-		key: 'action',
-	},
-].map((item) => ({
-	...item,
-	key: item.dataIndex || item.key,
-	align: 'center',
-}));
 
 const useClass = () => {
 	const loading = ref<boolean>(false);
@@ -82,7 +59,7 @@ const useClass = () => {
 	const classList = ref<ClassItem[]>([]);
 	const teacherList = ref<Teacher[]>([]);
 	const configs = ref<FormItem[]>([]);
-	const colums = ref<TableColumnsType>(ColumsCofnig);
+	const tableConfig = ref<TableConfig>();
 	const modelRef = ref<ModelExpose>();
 	const stateForm = ref<ClassForm>({
 		chargeId: undefined,
@@ -116,6 +93,7 @@ const useClass = () => {
 		loading.value = true;
 		classList.value = await findAllClassList();
 		teacherList.value = await findAllTeacher();
+		tableConfig.value = createTableConfig();
 		configs.value = createFormConfig(teacherList.value);
 		loading.value = false;
 	};
@@ -125,9 +103,9 @@ const useClass = () => {
 	return {
 		classList,
 		teacherList,
+		tableConfig,
 		loading,
 		configs,
-		colums,
 		isEdit,
 		stateForm,
 		onAdd,

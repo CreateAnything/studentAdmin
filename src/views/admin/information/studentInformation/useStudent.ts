@@ -1,86 +1,27 @@
-import { SearchConfig } from '@/components/commmon/search/type';
-import { TableColumnsType } from 'ant-design-vue';
+import { TableConfig } from '@/components/commmon/table/type';
+import { TablePaginationConfig } from 'ant-design-vue';
 import { Ref, onMounted, ref } from 'vue';
+import { findAllCourse } from '../../base/course/request';
+import { CourseItem } from '../../base/course/type';
 import Add from './add/index.vue';
+import { createTableConfig } from './config';
 import {
 	addStudent,
 	deleteStudent,
+	editStudent,
 	findAllStudentList,
-	findStudentById,
 } from './request';
-import { Student, StudentForm, StudentSearch } from './type';
-const ColumsCofnig: TableColumnsType = [
-	{
-		title: '序号',
-		customRender: (text: { index: number }) => {
-			return text.index + 1;
-		},
-	},
-	{
-		title: '姓名',
-		dataIndex: 'name',
-	},
-	{
-		title: '班级',
-		dataIndex: 'clazzName',
-	},
-	{
-		title: '部门',
-		dataIndex: 'dname',
-	},
-	{
-		title: '性别',
-		dataIndex: 'sex',
-	},
-	{
-		title: '生日',
-		dataIndex: 'birthday',
-	},
-	{
-		title: '操作',
-		key: 'action',
-	},
-].map((item) => ({
-	...item,
-	key: item.dataIndex || item.key,
-	align: 'center',
-}));
-const searchConfig: SearchConfig[] = [
-	{
-		span: 6,
-		type: 'input',
-		inputType: 'text',
-		placeholder: '请输入学生姓名',
-		modekey: 'name',
-		label: '姓名',
-	},
-	{
-		span: 6,
-		type: 'input',
-		inputType: 'text',
-		placeholder: '请输入学生班级',
-		modekey: 'classId',
-		label: '班级',
-	},
-	{
-		span: 6,
-		type: 'input',
-		inputType: 'text',
-		placeholder: '请输入学生部门',
-		modekey: 'departmentId',
-		label: '部门',
-	},
-];
+import { EditStudentPaylod, Student } from './type';
 const useStudent = (addCompnentRef: Ref<null | typeof Add>) => {
-	const Colums = ColumsCofnig;
-	const config = searchConfig;
+	const id = ref<number>();
 	const studentList = ref<Student[]>([]);
 	const loading = ref<boolean>(false);
 	const editStu = ref<Student>();
-	const formState = ref<StudentSearch>({
-		name: '',
-		classId: '',
-		departmentId: '',
+	const courseList = ref<CourseItem[]>([]);
+	const tableConfig = ref<TableConfig>();
+	const pagination = ref<TablePaginationConfig>({
+		current: 1,
+		pageSize: 5,
 	});
 	const removeStudent = async (id: number) => {
 		await deleteStudent([id]);
@@ -89,35 +30,48 @@ const useStudent = (addCompnentRef: Ref<null | typeof Add>) => {
 	const onAdd = () => {
 		addCompnentRef.value && addCompnentRef.value?.openModel(false);
 	};
-	const onEdit = async (id: number) => {
-		const student = await findStudentById(id);
+
+	const onEdit = async (student: Student) => {
+		id.value = student.id;
 		addCompnentRef.value &&
 			addCompnentRef.value?.openModel(true, student);
 	};
-	const onAddStudentEvent = async (payload: StudentForm) => {
-		await addStudent(payload);
+
+	const onAddStudentEvent = async (
+		payload: EditStudentPaylod,
+		type: boolean
+	) => {
+		payload.courseIds = JSON.stringify(payload.courseIds);
+		if (!type) {
+			await addStudent(payload);
+		} else {
+			payload.id = id.value;
+			await editStudent(payload);
+		}
 		init();
 	};
 	const init = async () => {
 		loading.value = true;
 		studentList.value = await findAllStudentList();
+		courseList.value = await findAllCourse();
+		tableConfig.value = createTableConfig();
 		loading.value = false;
 	};
 	onMounted(() => {
 		init();
 	});
 	return {
-		config,
-		formState,
-		Colums,
+		tableConfig,
 		studentList,
 		loading,
 		editStu,
+		courseList,
 		onEdit,
 		onAddStudentEvent,
 		removeStudent,
 		onAdd,
 		init,
+		pagination,
 	};
 };
 export default useStudent;

@@ -1,39 +1,34 @@
 import { FormItem } from '@/components/commmon/modelForm/form/type';
-import { TableColumnsType } from 'ant-design-vue';
+import { CreateTableConfig } from '@/components/commmon/table/type';
 import { ModelOptions, Roels } from './type';
-export const createColums = (): TableColumnsType => {
-	return [
-		{
-			title: '序号',
-			customRender: (text: { index: number }) => {
-				return text.index + 1;
+export const createTableConfig: CreateTableConfig = () => {
+	return {
+		showAdd: true,
+		colums: [
+			{
+				title: '序号',
+				customRender: (text: { index: number }) => {
+					return text.index + 1;
+				},
 			},
-		},
-		{
-			title: '姓名',
-			dataIndex: 'username',
-		},
-		{
-			title: '是否启用',
-			dataIndex: 'isEnabled',
-		},
-		{
-			title: '角色',
-			dataIndex: 'roleId',
-		},
-		{
-			title: '创建人',
-			dataIndex: 'createUser',
-		},
-		{
-			title: '操作',
-			key: 'action',
-		},
-	].map((item) => ({
-		...item,
-		key: item.dataIndex || item.key,
-		align: 'center',
-	}));
+			{
+				title: '姓名',
+				dataIndex: 'username',
+			},
+			{
+				title: '是否启用',
+				dataIndex: 'isEnabled',
+			},
+			{
+				title: '角色',
+				dataIndex: 'roleId',
+			},
+			{
+				title: '操作',
+				key: 'action',
+			},
+		],
+	};
 };
 
 export const createModelConfig = (options: ModelOptions): FormItem[] => {

@@ -21,11 +21,17 @@ const useLogin = (router: Router) => {
 				message.error('该用户没有菜单请联系管理员添加菜单后使用');
 				return;
 			}
-			const path = menuTree[0].url;
+			let path = '';
+			if (menuTree[0].children.length > 0) {
+				path = menuTree[0].children[0].url;
+				premission.setPathLevel([menuTree[0].url, path]);
+			} else {
+				path = menuTree[0].url;
+				premission.setPathLevel([path]);
+			}
 			user.setUserMenu(menuTree);
 			user.setUserInfo(result);
 			router.push(path);
-			premission.setPathLevel([path]);
 			message.success('登陆成功!');
 		}
 	};

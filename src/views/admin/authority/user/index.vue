@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import DescHead from '@/components/commmon/descHead/index.vue';
 import Page from '@/components/commmon/page/index.vue';
+import Table from '@/components/commmon/table/index.vue';
 import useUser from './useUser';
 const {
 	loading,
 	userForm,
-	userList,
-	TableColums,
 	formatRole,
 	ModelConfig,
 	modelRef,
+	TaleConfig,
+	userList,
 	onEdit,
 	onOpenModel,
 	onRemove,
@@ -24,49 +25,45 @@ const {
 			</DescHead>
 		</template>
 		<template #main>
-			<a-card>
-				<ModelForm
-					ref="modelRef"
-					v-model:state="userForm"
-					:config="ModelConfig"
-					@submit="onSubmit"
-				/>
-				<template #extra>
-					<a-button type="primary" @click="onOpenModel"
-						>新增</a-button
+			<ModelForm
+				ref="modelRef"
+				v-model:state="userForm"
+				:config="ModelConfig"
+				@submit="onSubmit"
+			/>
+			<Table
+				:config="TaleConfig"
+				:loading="loading"
+				@add="onOpenModel"
+				:sourse="userList"
+			>
+				<template v-slot:bodyCell="{ scope }">
+					<template
+						v-if="scope.column.dataIndex === 'isEnabled'"
 					>
-				</template>
-				<a-table
-					style="height: 100%"
-					:columns="TableColums"
-					:data-source="userList"
-				>
-					<template #bodyCell="{ column, record }">
-						<template v-if="column.key === 'isEnabled'">
-							<a-switch
-								:disabled="true"
-								:un-checked-value="0"
-								:checked-value="1"
-								v-model:checked="record.isEnabled"
-							/>
-						</template>
-						<template v-if="column.key === 'roleId'">
-							{{ formatRole(record.roleId) }}
-						</template>
-						<template v-if="column.key == 'action'">
-							<a-button
-								type="primary"
-								size="small"
-								@click="() => onEdit(record)"
-								>编辑</a-button
-							>
-							<confirm
-								@confirm="() => onRemove(record.id)"
-							/>
-						</template>
+						<a-switch
+							:disabled="true"
+							:un-checked-value="0"
+							:checked-value="1"
+							v-model:checked="scope.record.isEnabled"
+						/>
 					</template>
-				</a-table>
-			</a-card>
+					<template v-if="scope.column.dataIndex === 'roleId'">
+						{{ formatRole(scope.record.roleId) }}
+					</template>
+					<template v-if="scope.column.key == 'action'">
+						<a-button
+							type="primary"
+							size="small"
+							@click="() => onEdit(scope.record)"
+							>编辑</a-button
+						>
+						<confirm
+							@confirm="() => onRemove(scope.record.id)"
+						/>
+					</template>
+				</template>
+			</Table>
 		</template>
 	</Page>
 </template>

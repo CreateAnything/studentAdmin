@@ -13,7 +13,7 @@ const useScore = () => {
 
 	const getScore = computed(() => {
 		return (scores: ScoreDots[]) => {
-			if (scores.length === 0) return '-';
+			if (scores && scores.length === 0) return '-';
 			return scores.find(
 				(course) => course.courseId === parseInt(courseId)
 			)?.score;
@@ -28,7 +28,6 @@ const useScore = () => {
 		loading.value = true;
 		if (id) {
 			studentList.value = await findStudentListById(id);
-			console.log(studentList.value);
 		}
 		loading.value = false;
 	};
