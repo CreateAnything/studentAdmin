@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import dayjs from '_dayjs@1.11.7@dayjs';
 import { Student, StudentForm } from '../type';
 import useAdd from './useAdd';
 const emit = defineEmits<{
@@ -41,9 +40,7 @@ const openModel = (type: boolean, payload: Student) => {
 		formState.value.name = payload.name;
 		formState.value.password = payload.password;
 		formState.value.sex = payload.sex;
-		formState.value.birthday = dayjs(
-			payload.birthday
-		) as unknown as string;
+		formState.value.birthday = payload.birthday;
 	}
 	visible.value = true;
 };
@@ -136,6 +133,7 @@ defineExpose({
 							v-model:value="formState.courseIds"
 							placeholder="请选择课程"
 							mode="multiple"
+							:max-tag-count="1"
 						>
 							<a-select-option
 								v-for="item in courseList"
@@ -171,6 +169,7 @@ defineExpose({
 							style="width: 100%"
 							:format="dateFormat"
 							placeholder="请选择出生日期"
+							:value-format="dateFormat"
 							v-model:value="formState.birthday"
 						/>
 					</a-form-item>

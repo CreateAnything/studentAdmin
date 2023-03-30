@@ -38,11 +38,6 @@ onMounted(() => {
 				:loading="loading"
 				:sourse="scoreList"
 			>
-				<template v-slot:bodyCell="{ scope }">
-					<div v-if="scope.column.dataIndex === 'abc'">
-						asas
-					</div>
-				</template>
 			</Table>
 		</template>
 	</Page>

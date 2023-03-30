@@ -21,10 +21,6 @@ export const createTableConfig: CreateTableConfig = (): TableConfig => {
 				title: '成绩',
 				dataIndex: 'score',
 			},
-			{
-				title: 'abc',
-				dataIndex: 'abc',
-			},
 		],
 	};
 };

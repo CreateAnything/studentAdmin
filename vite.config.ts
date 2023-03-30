@@ -9,7 +9,6 @@ import {
 	createStyleImportPlugin,
 } from 'vite-plugin-style-import';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
-// https://vitejs.dev/config/
 export default ({ mode }: ConfigEnv) => {
 	const envConfig = loadEnv(mode, path.resolve(process.cwd(), './env'));
 	const { VITE_PORT } = envConfig;
@@ -37,7 +36,7 @@ export default ({ mode }: ConfigEnv) => {
 		//配置跨域代理
 		server: {
 			port: parseInt(VITE_PORT),
-			open: true,
+			hmr: false,
 			proxy: {
 				'/api': {
 					target: 'http://localhost:8080',
@@ -62,6 +61,9 @@ export default ({ mode }: ConfigEnv) => {
 					javascriptEnabled: true,
 				},
 			},
+		},
+		build: {
+			cssCodeSplit: false,
 		},
 	});
 };

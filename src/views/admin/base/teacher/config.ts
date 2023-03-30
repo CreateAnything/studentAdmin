@@ -26,6 +26,10 @@ export const createTableConfig: CreateTableConfig = () => {
 				dataIndex: 'dname',
 			},
 			{
+				title: '课程',
+				dataIndex: 'cname',
+			},
+			{
 				title: '生日',
 				dataIndex: 'birthday',
 			},

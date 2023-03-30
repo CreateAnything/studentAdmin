@@ -1,4 +1,3 @@
-import { Dayjs } from '_dayjs@1.11.7@dayjs';
 type CourseDots = {
 	address: string;
 	classtime: string;
@@ -43,7 +42,7 @@ export enum Api {
 }
 
 //add
-export type onChange = (date: Dayjs | string, dateString: string) => void;
+export type onChange = (date: any | string, dateString: string) => void;
 export interface EditorProps {
 	isEdit?: string;
 	student: Student;

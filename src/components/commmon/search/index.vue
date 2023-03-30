@@ -140,7 +140,7 @@ watch(
 	</a-card>
 </template>
 <style lang="less" scoped>
-/deep/.ant-form-item {
+:deep(.ant-form-item) {
 	margin-bottom: 0 !important;
 }
 .search-btn {

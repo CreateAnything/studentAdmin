@@ -75,7 +75,7 @@ const onAdd = () => {
 	</a-card>
 </template>
 <style lang="less" scoped>
-/deep/.ant-empty-description {
+:deep(.ant-empty-description) {
 	color: #dce0e6;
 }
 </style>

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/store/user';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-import Modal from '_ant-design-vue@3.2.15@ant-design-vue/es/modal/Modal';
-import { TableColumnProps } from 'ant-design-vue';
+import { Modal, TableColumnProps } from 'ant-design-vue';
 import { computed, createVNode, ref } from 'vue';
 import {
 	ScoreDots,
