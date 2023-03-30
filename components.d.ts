@@ -64,6 +64,8 @@ declare module '@vue/runtime-core' {
 		Head: typeof import('./src/components/business/page/child/head/index.vue')['default'];
 		Header: typeof import('./src/components/single/header/index.vue')['default'];
 		HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
+		History: typeof import('./src/components/business/history/index.vue')['default'];
+		HistoryItem: typeof import('./src/components/business/history/child/historyItem.vue')['default'];
 		Loading: typeof import('./src/components/commmon/loading/index.vue')['default'];
 		Main: typeof import('./src/components/business/page/child/main/index.vue')['default'];
 		Menu: typeof import('./src/components/single/menu/index.vue')['default'];

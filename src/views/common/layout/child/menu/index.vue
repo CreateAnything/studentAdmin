@@ -1,35 +1,36 @@
 <script setup lang="ts" name="Menu">
-import { usePremissionStore } from '@/store/premission';
+import { useGlobalStore } from '@/store/global';
 import { MenuTree } from '@/views/admin/authority/menu/type';
 import { MenuProps } from 'ant-design-vue';
 import { Key } from 'ant-design-vue/lib/_util/type';
-import { ref, toRefs } from 'vue';
+import { onMounted, ref, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import SubMenu from './menuItem/index.vue';
+const global = useGlobalStore();
 const props = defineProps<{
 	menuList: MenuTree[];
 }>();
 
 const router = useRouter();
-const premission = usePremissionStore();
 const { menuList } = toRefs(props);
 const selectedKeys = ref<Key[]>([]);
 const openKeys = ref<Key[]>([]);
-const currentPath = premission.getCurrentPath;
-if (currentPath !== undefined) {
-	selectedKeys.value = [currentPath];
-}
-
-openKeys.value = [premission.getFatherPath];
 const handleMenuItemChange: MenuProps['onClick'] = (info) => {
-	premission.setPathLevel(info.keyPath as Key[]);
 	router.push(info.key as string);
 };
-
 const onOpenChange: MenuProps['onOpenChange'] = (Keys) => {
 	const lateKey = Keys.at(-1);
 	lateKey && (openKeys.value = [lateKey]);
 };
+router.beforeEach((to) => {
+	openKeys.value = to.matched.map((it) => it.path);
+	selectedKeys.value = [to.path];
+});
+onMounted(() => {
+	const route = router.currentRoute.value;
+	openKeys.value = route.matched.map((it) => it.path);
+	selectedKeys.value = [route.path];
+});
 </script>
 
 <template>
@@ -38,7 +39,7 @@ const onOpenChange: MenuProps['onOpenChange'] = (Keys) => {
 		v-model:selectedKeys="selectedKeys"
 		v-model:openKeys="openKeys"
 		mode="inline"
-		theme="dark"
+		:theme="global.siderMode"
 		@openChange="onOpenChange"
 		@click="handleMenuItemChange"
 	>
@@ -46,7 +47,10 @@ const onOpenChange: MenuProps['onOpenChange'] = (Keys) => {
 			<template v-if="item.children.length === 0">
 				<a-menu-item :key="item.url">
 					<template #icon>
-						<svg-icon :name="item.icon"></svg-icon>
+						<svg-icon
+							:name="item.icon"
+							:color="global.getIconColor"
+						></svg-icon>
 					</template>
 					{{ item.name }}
 				</a-menu-item>

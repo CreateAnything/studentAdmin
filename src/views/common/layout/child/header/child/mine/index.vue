@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ModelForm from '@/components/commmon/modelForm/index.vue';
 import { MyRequest } from '@/request/index';
+import { useGlobalStore } from '@/store/global';
 import { usePremissionStore } from '@/store/premission';
 import { useUserStore } from '@/store/user';
 import { createMessage } from '@/utils';
@@ -16,6 +17,7 @@ const user = useUserStore();
 const { userInfo } = storeToRefs(user);
 const premission = usePremissionStore();
 const router = useRouter();
+const global = useGlobalStore();
 const message = createMessage();
 interface DropListItem {
 	name: string;
@@ -112,6 +114,7 @@ const updateTeacherInfo = async () => {
 const ExitLoginHandle = () => {
 	user.$reset();
 	premission.$reset();
+	global.$reset();
 	router.push('/login');
 };
 

@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
 	overflow: hidden;
 	.head-con {
 		min-height: 100px;
-		margin-bottom: 10px;
+		margin-bottom: @m-small;
 	}
 	.main-con {
 		flex: 1;

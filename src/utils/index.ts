@@ -4,6 +4,15 @@ import { Component } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
 import myMessage from './message';
 import { TreeConfig, UseTreeFnType } from './type';
+//获取map对象的前一个对象
+export const findPreMap = <K, V>(
+	map: Map<K, V>,
+	target: K
+): [K, V] | null => {
+	const emtriesArray = Array.from(map.entries());
+	const targetIndex = emtriesArray.findIndex(([key]) => key === target);
+	return targetIndex > 0 ? emtriesArray[targetIndex - 1] : null;
+};
 //全局消息
 export const createMessage = () => {
 	return myMessage.getInstance();

@@ -1,3 +1,4 @@
+import { useGlobalStore } from '@/store/global';
 import { usePremissionStore } from '@/store/premission';
 import { useUserStore } from '@/store/user';
 import { GetListToTree, createMessage } from '@/utils';
@@ -5,6 +6,7 @@ import { reactive } from 'vue';
 import { Router } from 'vue-router';
 import { userLogin } from './request';
 import { LoginForm } from './type';
+const global = useGlobalStore();
 const user = useUserStore();
 const premission = usePremissionStore();
 const message = createMessage();
@@ -31,6 +33,7 @@ const useLogin = (router: Router) => {
 			}
 			user.setUserMenu(menuTree);
 			user.setUserInfo(result);
+			global.pathHome = path;
 			router.push(path);
 			message.success('登陆成功!');
 		}

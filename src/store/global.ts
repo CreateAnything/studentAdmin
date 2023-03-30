@@ -1,29 +1,33 @@
 import { defineStore } from 'pinia';
 type State = {
 	collapsed: boolean;
-	isLoading: boolean;
+	showHistory: boolean;
+	pathHome: string;
+	siderMode: 'dark' | 'light';
 };
 export const useGlobalStore = defineStore('global', {
 	state: (): State => ({
 		collapsed: false,
-		isLoading: false,
+		showHistory: true,
+		pathHome: '',
+		siderMode: 'dark',
 	}),
 	persist: {
 		enabled: true,
 		strategies: [
 			{
 				storage: localStorage,
-				paths: ['collapsed'],
+				paths: ['collapsed', 'pathHome', 'siderMode'],
 			},
 		],
 	},
-	getters: {},
-	actions: {
-		showLoading() {
-			this.isLoading = true;
+	getters: {
+		getColor: (state) => {
+			return state.siderMode === 'dark' ? '#001529' : '#fff';
 		},
-		hideLoading() {
-			this.isLoading = false;
+		getIconColor: (state) => {
+			return state.siderMode === 'dark' ? '#fff' : '#000000';
 		},
 	},
+	actions: {},
 });

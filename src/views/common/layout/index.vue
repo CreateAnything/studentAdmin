@@ -10,14 +10,24 @@ const global = useGlobalStore();
 </script>
 <template>
 	<a-layout>
-		<a-layout-sider :collapsed="global.collapsed">
+		<a-layout-sider
+			:collapsed="global.collapsed"
+			:style="{ background: global.getColor }"
+		>
 			<Menu :menu-list="menuTree" />
 		</a-layout-sider>
 		<a-layout>
 			<a-layout-header class="header">
 				<Header />
 			</a-layout-header>
-			<a-layout-content class="main-page">
+			<a-layout-content
+				class="main-page"
+				:class="{ mainAc: global.showHistory }"
+			>
+				<History
+					v-if="global.showHistory"
+					:class="{ history: global.showHistory }"
+				/>
 				<Content />
 			</a-layout-content>
 		</a-layout>
@@ -29,10 +39,16 @@ const global = useGlobalStore();
 	background-color: white;
 }
 .main-page {
-	margin: 24px @p-media;
+	margin: @m-small @p-media;
 	padding: 24px;
-	background-color: #f5f7f9;
+	// background-color: #f5f7f9;
 	padding: 0;
 	height: 100vh;
+	.history {
+		margin: 5px 0 !important;
+	}
+}
+.mainAc {
+	margin-top: 0 !important;
 }
 </style>

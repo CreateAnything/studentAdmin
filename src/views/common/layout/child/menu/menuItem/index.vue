@@ -1,7 +1,9 @@
 <script setup lang="ts" name="SubMenu">
+import { useGlobalStore } from '@/store/global';
 import { MenuTree } from '@/views/admin/authority/menu/type';
 import SubMenu from '@/views/common/layout/child/menu/menuItem/index.vue';
 import { toRefs } from 'vue';
+const global = useGlobalStore();
 const props = defineProps<{
 	menu: MenuTree;
 }>();
@@ -17,7 +19,10 @@ const { menu } = toRefs(props);
 			<template v-if="item.children.length === 0">
 				<a-menu-item :key="item.url">
 					<template #icon>
-						<svg-icon :name="item.icon"></svg-icon>
+						<svg-icon
+							:name="item.icon"
+							:color="global.getIconColor"
+						></svg-icon>
 					</template>
 					{{ item.name }}
 				</a-menu-item>
