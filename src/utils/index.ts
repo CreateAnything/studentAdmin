@@ -1,5 +1,5 @@
 import { MenuTree } from '@/views/admin/authority/menu/type';
-import { FormState, MenuItem } from 'global';
+import { FormState } from 'type';
 import { Component } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
 import myMessage from './message';
@@ -47,12 +47,12 @@ export const GetRoutesByMenu = (
 			meta: {
 				title: menuItem.name,
 				icon,
+				Auth: true,
 				isMenu: menuItem.isMenu,
 			},
 			component: modules[modulePath],
 		};
 		if (hasChild) {
-			// routes.redirect = children?.[0].path as never;
 			routes.component = () =>
 				import('../components/commmon/ParentView/index.vue');
 		}
@@ -95,8 +95,8 @@ export const GetListToTree = (config: TreeConfig): MenuTree[] => {
 
 //递归获取tree的每一项
 export const mapTreeMenu = (
-	menus: MenuItem[],
-	callback: (menu: MenuItem) => void
+	menus: MenuTree[],
+	callback: (menu: MenuTree) => void
 ) => {
 	menus.forEach((menu) => {
 		callback(menu);

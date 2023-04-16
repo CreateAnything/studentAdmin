@@ -2,22 +2,27 @@ import { defineStore } from 'pinia';
 type State = {
 	collapsed: boolean;
 	showHistory: boolean;
-	pathHome: string;
+	home: { name: string; path: string };
 	siderMode: 'dark' | 'light';
+	defaultRedirect: string;
 };
 export const useGlobalStore = defineStore('global', {
 	state: (): State => ({
 		collapsed: false,
 		showHistory: true,
-		pathHome: '',
+		home: {
+			name: '',
+			path: '',
+		},
 		siderMode: 'dark',
+		defaultRedirect: 'entry',
 	}),
 	persist: {
 		enabled: true,
 		strategies: [
 			{
 				storage: localStorage,
-				paths: ['collapsed', 'pathHome', 'siderMode'],
+				paths: ['collapsed', 'home', 'siderMode'],
 			},
 		],
 	},

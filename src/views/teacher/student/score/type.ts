@@ -28,6 +28,15 @@ export type TableSourse = {
 	studentId?: number;
 	name: string;
 	clazzName: string;
+	cname: string;
 };
-
 export type UpdateScoreForm = Omit<TableSourse, 'name' | 'clazzName'>;
+
+export interface MyStudent extends StudentItem {
+	score?: number | string;
+}
+export type XlsKey = keyof Pick<
+	MyStudent,
+	'name' | 'dname' | 'clazzName' | 'score'
+>;
+export type XlsMapKey = { name: string; key: XlsKey };

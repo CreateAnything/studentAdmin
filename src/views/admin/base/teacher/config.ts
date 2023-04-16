@@ -1,4 +1,4 @@
-import { FormItem } from '@/components/commmon/modelForm/form/type';
+import { FormItem } from '@/components/commmon/modelForm/type';
 import { CreateTableConfig } from '@/components/commmon/table/type';
 import { ClassItem } from '../class/type';
 import { CourseItem } from '../course/type';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstance } from 'ant-design-vue';
-import { FormState } from 'global';
+import { FormState } from 'type';
 import { ref, toRefs, watch } from 'vue';
 import { SearchConfig } from './type';
 interface Props {

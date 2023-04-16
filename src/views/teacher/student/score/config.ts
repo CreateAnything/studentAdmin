@@ -3,8 +3,6 @@ import { TableColumnProps } from 'ant-design-vue';
 import { StudentItem } from './type';
 export const createTableConfig: CreateTableConfig = () => {
 	return {
-		showAdd: true,
-		addName: '打分',
 		colums: [
 			{
 				title: '序号',

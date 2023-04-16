@@ -1,11 +1,13 @@
 <script setup lang="ts" name="Menu">
 import { useGlobalStore } from '@/store/global';
+import { usePremissionStore } from '@/store/premission';
 import { MenuTree } from '@/views/admin/authority/menu/type';
 import { MenuProps } from 'ant-design-vue';
 import { Key } from 'ant-design-vue/lib/_util/type';
 import { onMounted, ref, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import SubMenu from './menuItem/index.vue';
+const premission = usePremissionStore();
 const global = useGlobalStore();
 const props = defineProps<{
 	menuList: MenuTree[];
@@ -25,6 +27,7 @@ const onOpenChange: MenuProps['onOpenChange'] = (Keys) => {
 router.beforeEach((to) => {
 	openKeys.value = to.matched.map((it) => it.path);
 	selectedKeys.value = [to.path];
+	premission.currentPath = to.fullPath;
 });
 onMounted(() => {
 	const route = router.currentRoute.value;

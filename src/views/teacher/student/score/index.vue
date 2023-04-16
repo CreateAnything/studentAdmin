@@ -7,8 +7,14 @@ import ModalScore from './model/index.vue';
 import useScore from './useScore';
 const modalRef = ref<typeof ModalScore>();
 const tableConfig = createTableConfig();
-const { loading, studentList, getCourseName, getScore, onUpdateScore } =
-	useScore();
+const {
+	loading,
+	studentList,
+	getCourseName,
+	getScore,
+	onUpdateScore,
+	onExport,
+} = useScore();
 const openModal = () => {
 	modalRef.value?.openModal();
 };
@@ -31,9 +37,19 @@ const openModal = () => {
 			<Table
 				:config="tableConfig"
 				:loading="loading"
-				@add="openModal"
 				:sourse="studentList"
 			>
+				<template #extra>
+					<a-button type="primary" @click="openModal"
+						>打分</a-button
+					>
+					<a-button
+						type="primary"
+						@click="onExport"
+						class="export"
+						>导出</a-button
+					>
+				</template>
 				<template v-slot:bodyCell="{ scope }">
 					<template v-if="scope.column.dataIndex === 'cname'">
 						<span>{{ getCourseName }}</span>
@@ -48,3 +64,8 @@ const openModal = () => {
 		</template>
 	</Page>
 </template>
+<style scoped lang="less">
+.export {
+	margin: 0 10px;
+}
+</style>

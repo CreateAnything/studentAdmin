@@ -27,7 +27,7 @@ premission.setRouterKeysMap();
 				class="trigger"
 				@click="() => (collapsed = !collapsed)"
 			/>
-			<Breadcrumb :keys="premission.getPathName" />
+			<Breadcrumb />
 		</a-col>
 
 		<a-col :span="8" class="header-right">

@@ -1,8 +1,7 @@
 import { MenuTree } from '@/views/admin/authority/menu/type';
-import { MenuItem } from 'global';
 
 type MenuExcluter = (key: string) => string[];
-type createMenuFn = (menus: MenuItem[]) => MenuExcluter;
+type createMenuFn = (menus: MenuTree[]) => MenuExcluter;
 
 type useTreeReturnType = (
 	tree?: MenuTree[],

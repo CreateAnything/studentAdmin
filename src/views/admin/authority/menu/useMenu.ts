@@ -1,7 +1,7 @@
 import {
 	FormItem,
 	ModelExpose,
-} from '@/components/commmon/modelForm/form/type';
+} from '@/components/commmon/modelForm/type';
 import { TableConfig } from '@/components/commmon/table/type';
 import { GetListToTree } from '@/utils';
 import { onMounted, ref } from 'vue';

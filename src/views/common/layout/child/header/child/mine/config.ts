@@ -1,4 +1,4 @@
-import { CreateModelFn } from 'global';
+import { CreateModelFn } from 'type';
 
 export const createModelConfig: CreateModelFn = (options) => {
 	return [

@@ -8,10 +8,9 @@ const { formState, onFinish } = useLogin(router);
 
 <template>
 	<a-row class="login-wrapper">
-		<a-col class="login-left-col" :span="12"></a-col>
-		<a-col class="login-right-col center" :span="12">
-			<a-col class="login-right-from" :span="12">
-				<h2>Admin Pro</h2>
+		<a-col class="login-right-col center" :span="24">
+			<a-col class="login-right-from" :span="6">
+				<h2 style="color: #fff">Admin Pro</h2>
 				<a-form
 					:model="formState"
 					name="loginForm"

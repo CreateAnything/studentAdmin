@@ -12,7 +12,10 @@ const { menu } = toRefs(props);
 <template>
 	<a-sub-menu :key="menu.url">
 		<template #icon>
-			<svg-icon :name="menu.icon"></svg-icon>
+			<svg-icon
+				:name="menu.icon"
+				:color="global.getIconColor"
+			></svg-icon>
 		</template>
 		<template #title>{{ menu.name }}</template>
 		<template v-for="item in menu.children" :key="item.url">

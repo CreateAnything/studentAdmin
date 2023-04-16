@@ -1,6 +1,6 @@
-import { FormItem } from '@/components/commmon/modelForm/form/type';
+import { FormItem } from '@/components/commmon/modelForm/type';
 import { CreateTableConfig } from '@/components/commmon/table/type';
-import { CreateModelFn } from 'global';
+import { CreateModelFn } from 'type';
 const WeekObj = {
 	1: '星期一',
 	2: '星期二',

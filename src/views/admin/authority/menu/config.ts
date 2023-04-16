@@ -1,6 +1,6 @@
-import { FormItem } from '@/components/commmon/modelForm/form/type';
+import { FormItem } from '@/components/commmon/modelForm/type';
 import { CreateTableConfig } from '@/components/commmon/table/type';
-import { ModeOptions } from 'global';
+import { ModeOptions } from 'type';
 import { Roels } from '../user/type';
 
 export const urlPattern = /^\/(admin|student|teacher)(\/.*)?$/;

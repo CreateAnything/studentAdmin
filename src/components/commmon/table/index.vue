@@ -50,12 +50,16 @@ const onAdd = () => {
 <template>
 	<a-card :loading="loading">
 		<template #extra>
-			<a-button
-				v-if="config?.showAdd"
-				type="primary"
-				@click="onAdd"
-				>{{ config.addName ? config.addName : '新增' }}</a-button
-			>
+			<slot name="extra">
+				<a-button
+					v-if="config?.showAdd"
+					type="primary"
+					@click="onAdd"
+					>{{
+						config.addName ? config.addName : '新增'
+					}}</a-button
+				>
+			</slot>
 		</template>
 		<a-table
 			v-if="sourse.length > 0"

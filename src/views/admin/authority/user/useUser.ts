@@ -1,10 +1,10 @@
 import {
 	FormItem,
 	ModelExpose,
-} from '@/components/commmon/modelForm/form/type';
+} from '@/components/commmon/modelForm/type';
 import { TableConfig } from '@/components/commmon/table/type';
 import { TableColumnsType } from 'ant-design-vue';
-import { ValidatorRules } from 'global';
+import { ValidatorRules } from 'type';
 import { computed, onMounted, ref } from 'vue';
 import { createModelConfig, createTableConfig } from './config';
 import { addUser, editUser, findAllUser, removeUser } from './request';

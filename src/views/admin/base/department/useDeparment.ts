@@ -1,4 +1,4 @@
-import { ModelExpose } from '@/components/commmon/modelForm/form/type';
+import { ModelExpose } from '@/components/commmon/modelForm/type';
 import { TableConfig } from '@/components/commmon/table/type';
 import { onMounted, ref } from 'vue';
 import { createTableConfig } from './config';

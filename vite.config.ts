@@ -13,6 +13,7 @@ export default ({ mode }: ConfigEnv) => {
 	const envConfig = loadEnv(mode, path.resolve(process.cwd(), './env'));
 	const { VITE_PORT } = envConfig;
 	return defineConfig({
+		base: './',
 		plugins: [
 			vue(),
 			Components({
@@ -50,9 +51,10 @@ export default ({ mode }: ConfigEnv) => {
 			//设置别名
 			alias: {
 				'@': fileURLToPath(new URL('./src', import.meta.url)),
+				type: path.resolve(__dirname, './type.d.ts'),
 			},
 			//导入时需要省略的扩展名
-			extensions: ['.mjs', '.js', '.ts', '.json'],
+			extensions: ['.js', '.ts'],
 		},
 		css: {
 			preprocessorOptions: {
@@ -63,7 +65,33 @@ export default ({ mode }: ConfigEnv) => {
 			},
 		},
 		build: {
+			assetsDir: 'assets',
+			outDir: 'dist',
+			target: 'es2020',
+			minify: 'terser', //压缩方式terser构建后文件体积更小
+			sourcemap: false, //不开启映射文件
+			cssTarget: 'chrome61',
 			cssCodeSplit: false,
+			chunkSizeWarningLimit: 1500, //打包限制1500kb
+			terserOptions: {
+				compress: {
+					drop_console: true, // 生产环境移除console
+					drop_debugger: true, // 生产环境移除debugger
+				},
+			},
+			rollupOptions: {
+				output: {
+					chunkFileNames: 'static/js/[name]-[hash].js',
+					entryFileNames: 'static/js/[name]-[hash].js',
+					assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+					//对node_modules下的文件进行分包避免和业务代码的耦合
+					manualChunks: (id) => {
+						if (id.includes('node_modules')) {
+							return 'vendor';
+						}
+					},
+				},
+			},
 		},
 	});
 };

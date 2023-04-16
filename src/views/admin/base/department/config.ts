@@ -1,4 +1,4 @@
-import { FormItem } from '@/components/commmon/modelForm/form/type';
+import { FormItem } from '@/components/commmon/modelForm/type';
 import { CreateTableConfig } from '@/components/commmon/table/type';
 export const createTableConfig: CreateTableConfig = () => {
 	return {

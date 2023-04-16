@@ -1,7 +1,6 @@
 const adminModules = import.meta.glob('../views/admin/**/*.vue');
 const teacherModules = import.meta.glob('../views/teacher/**/*.vue');
 const studentModules = import.meta.glob('../views/student/**/*.vue');
-
 import { RoutesModulesType } from '@/store/type/user.type';
 import { Roels } from '@/views/admin/authority/user/type';
 export const findMoudlesByRole = (roleName: Roels) => {

@@ -2,13 +2,14 @@
 import ModelForm from '@/components/commmon/modelForm/index.vue';
 import { MyRequest } from '@/request/index';
 import { useGlobalStore } from '@/store/global';
+import { useHistoryStore } from '@/store/history';
 import { usePremissionStore } from '@/store/premission';
 import { useUserStore } from '@/store/user';
 import { createMessage } from '@/utils';
 import { Roels } from '@/views/admin/authority/user/type';
 import { CaretDownOutlined, UserOutlined } from '@ant-design/icons-vue';
-import { ValidatorRules } from 'global';
 import { storeToRefs } from 'pinia';
+import { ValidatorRules } from 'type';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { createModelConfig, createPersonModelConfig } from './config';
@@ -18,6 +19,7 @@ const { userInfo } = storeToRefs(user);
 const premission = usePremissionStore();
 const router = useRouter();
 const global = useGlobalStore();
+const history = useHistoryStore();
 const message = createMessage();
 interface DropListItem {
 	name: string;
@@ -115,7 +117,8 @@ const ExitLoginHandle = () => {
 	user.$reset();
 	premission.$reset();
 	global.$reset();
-	router.push('/login');
+	history.$reset();
+	router.push({ name: global.defaultRedirect });
 };
 
 const confirmPasswordRules: ValidatorRules = (_rule, value) => {

@@ -43,7 +43,7 @@ const openModal = () => {
 			name: item.name,
 			clazzName: item.clazzName,
 			cname,
-		};
+		} as TableSourse;
 	});
 };
 const findScore = (item: ScoreDots[]): ScoreDots | undefined => {
@@ -56,10 +56,11 @@ const onSubmit = () => {
 		icon: createVNode(ExclamationCircleOutlined),
 		onOk() {
 			const payload: UpdateScoreForm[] = sourse.value.map(
-				({ score, studentId, courseId }) => ({
+				({ score, studentId, courseId, cname }) => ({
 					score,
 					studentId,
 					courseId,
+					cname,
 				})
 			);
 			emit('submit', payload);

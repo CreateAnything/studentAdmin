@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { FormInstance } from 'ant-design-vue';
-import { FormState } from 'global';
+import { FormState } from 'type';
 import { computed, ref, toRefs, watch } from 'vue';
-import { FormConfig, FormItem, ModelExpose } from './form/type';
+import { FormConfig, FormItem, ModelExpose } from './type';
 interface Props {
 	width?: number;
 	config: FormItem[];

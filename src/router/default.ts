@@ -5,28 +5,43 @@ const NotFound = () =>
 	import('@/views/common/error/notFundErr/index.vue');
 const NetWorkError = () =>
 	import('@/views/common/error/networkErr/index.vue');
+const defaultBackground = () => import('@/views/common/entry/index.vue');
+export const ErrorRoutes: RouteRecordRaw[] = [
+	{
+		path: '/:pathMatch(.*)*',
+		name: '404',
+		component: NotFound,
+		meta: { title: '404', Auth: false },
+	},
+	{
+		path: '/layout/500',
+		name: '500',
+		component: NetWorkError,
+		meta: { title: '500', Auth: false },
+	},
+];
 const publicRoute: RouteRecordRaw[] = [
 	{
 		path: '/',
-		redirect: '/login',
+		redirect: '/entry',
+	},
+	{
+		path: '/entry',
+		component: defaultBackground,
+		name: 'entry',
+		meta: { title: '系统入口', Auth: false },
 	},
 	{
 		path: '/login',
 		name: 'login',
 		component: Login,
-		meta: { title: '登录' },
+		meta: { title: '登录', Auth: false },
 	},
 	{
-		path: '/404',
-		name: '404',
-		component: NotFound,
-		meta: { title: '404' },
-	},
-	{
-		path: '/400',
-		name: '400',
+		path: '/500',
+		name: '500',
 		component: NetWorkError,
-		meta: { title: '400' },
+		meta: { title: '500', Auth: false },
 	},
 	{
 		path: '/layout',

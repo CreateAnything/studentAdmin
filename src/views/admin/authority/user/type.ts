@@ -1,4 +1,4 @@
-import { ValidatorRules } from 'global';
+import { ValidatorRules } from 'type';
 
 export enum Api {
 	ADD_USER = '/studentmanager/user/save',
